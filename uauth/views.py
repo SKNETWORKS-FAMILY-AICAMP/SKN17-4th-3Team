@@ -40,7 +40,12 @@ def signup(request):
     else:
         form = UserForm()
     
-    return render(request, 'uauth/signup.html', {'form':form}) 
+    context = {
+        'form': form,
+        'is_signup_page': True 
+    }
+    
+    return render(request, 'uauth/signup.html', context) 
 
 # 이메일 인증코드 전송
 def send_verification_code(request):
