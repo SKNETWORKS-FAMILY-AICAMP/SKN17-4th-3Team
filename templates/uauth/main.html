@@ -1,0 +1,32 @@
+{% extends 'layout/base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <img src="{% static 'images/logo.png'%}"/>
+    <div class="login-box">
+        <form method='POST' action="{% url 'uauth:login' %}">
+            {% csrf_token %}
+            <div class='login-box-1'>
+                <p for="email">이메일</p>
+                <input type="email" class='form-control' name='email' id="email" value='{{form.email.value|default_if_none:""}}'/>
+                <p for="password">비밀번호</p>
+                <input type="password" class='form-control' name='password' id="password" value='{{form.password.value|default_if_none:""}}'/>
+            </div>
+            <div class='button-box'>
+                <button type="submit" class="login-btn">로그인</button>
+                <button type='button' class="signup-btn" onclick="location.href=`{% url 'uauth:signup' %}`">회원가입</button> 
+                <p></p>
+                <button type='button' class="find-btn" onclick="location.href=`{% url 'uauth:findpw'%}`">비밀번호찾기</button>   
+                <p></p>
+                {% if messages %}
+                    {% for message in messages %}
+                        <label class="feedback">{{ message }}</label>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </form>
+    </div>
+
+{% endblock content %}
+

@@ -1,0 +1,156 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    box-sizing: border-box;
+    min-height: 100vh; /* 🔹 전체 화면 꽉 채우기 */
+    overflow:hidden;
+}
+
+header {
+    height:100px;
+    display:flex;
+    align-items: center;
+    background: linear-gradient(to bottom, #ddfbd2, #ffffff);
+    border-bottom: 2px solid #ffffff;
+    font-size: 30px;
+}
+
+header img {
+    width: 90px;
+    height: 90px;
+    margin-right: 10px;
+}
+
+
+main {
+    display: flex;
+    justify-content: center;    
+    align-items: center;
+    height: calc(100vh - 80px);
+    gap: 80px;
+
+}
+
+main img {
+    width: 400px;
+    height: 400px;
+    object-fit: contain;
+}
+
+.login-box {
+    border: 1px solid #ddd;
+    border-radius:8px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    padding: 40px 50px;
+}
+
+.login-box p {
+    display: block;
+    font-size: 24px;
+    margin-bottom: 5px;
+    color: #333;
+    margin-top: 5px;
+}
+
+
+.login-box input[type='email'], input[type='password'] {
+    width: 250px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+button {
+    border: none;
+    border-radius: 6px;
+    padding: 8px 18px;
+    font-size:14px;
+    margin-right: 8px;
+    border: 1px solid #333;
+    width:125px;
+}
+
+/* .feedback {
+    color: red;
+    margin-top: 10px;
+    text-align:center;
+} */
+
+.button-box {
+    text-align: center; /* 버튼과 피드백 모두 중앙 정렬 */
+    margin-top: 10px;
+}
+
+.feedback {
+    color: red;
+    margin-top: 10px;
+    display: block; /* 한 줄 전체 차지 */
+}
+
+.login-btn {
+   background-color: #FEF9D9;
+}
+
+.signup-btn {
+    background-color:#D2E0FB;
+}
+
+.find-btn {
+    background-color:#E7E7E7;
+    margin-left: 136px;
+    margin-top: 10px;
+}
+
+.signup-row {
+    display:flex;
+    align-items: center;
+
+}
+
+
+
+/* 모달 전체 화면 덮기 */
+.modal {
+  display: none; /* 처음엔 숨김 */
+  position: fixed;
+  z-index: 1000;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5); /* 반투명 배경 */
+  justify-content: center;     /* 중앙 정렬 */
+  align-items: center;         /* 중앙 정렬 */
+}
+
+/* 모달 박스 */
+.modal-content {
+  background: #fff;
+  width: 80%;
+  height: 80%;
+  border-radius: 12px;
+  position: relative;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 닫기 버튼 */
+.modal .close {
+  position: absolute;
+  right: 16px;
+  top: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* iframe을 꽉 채우기 */
+.modal-content iframe {
+  flex: 1;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+}

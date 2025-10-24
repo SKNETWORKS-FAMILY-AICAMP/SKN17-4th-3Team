@@ -1,0 +1,92 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+{% endblock style %}
+
+{% block content %}
+{% comment %} 채팅 나오는 창 구현 {% endcomment %}
+<div class="chat-container">
+    <!-- 챗봇 메시지 -->
+    <div class="bot-message">
+        <div class="message-bubble bot">대전에서 누구와 어떤 여행을 하고 싶은지 저에게 알려주세요!!</div>
+    </div>
+
+  <!-- 사용자 메시지 -->
+    <div class="user-message">
+        <div class="message-bubble user">
+            아이와 함께 활동적인 체험들을 하며 여행을 즐길만한 곳들을 추천해줘!
+        </div>
+    </div>
+
+  <!-- 챗봇 답변 대기 -->
+    <div class="bot-message">
+        <div class="message-bubble bot">답변 생성중...</div>
+    </div>
+</div>
+
+
+
+{% comment %} 이 아래는 승철님 코드 {% endcomment %}
+<div class="style1">
+  <textarea id="message" sendbox="메시지를 입력하세요" onkeyup="lettercount(this)" maxlength="500"></textarea>
+  <span id="counter">(0/500)</span>
+  <button class="send">전송</button>  
+</div>
+
+<aside class="sidebar">
+  <br></br>
+  <div class="top-actions">
+    <button class="btn primary">비밀번호 변경</button>
+    <button class="btn destructive">로그아웃</button>
+    <button class="btn primary">새 채팅</button>
+    <button class="btn destructive">삭제</button>
+  </div>
+
+    <div class="chat-item">
+      <input type="checkbox">
+      <div class="date">2025-10-10 대전</div>
+    </div>
+  
+  <div class="chat-list">
+    <div class="chat-item active">
+      <input type="checkbox" checked>
+      <div class="date">2025-10-08 서울(1)</div>
+    </div>
+    <div class="chat-item">
+      <input type="checkbox">
+      <div class="date">2025-10-08 서울</div>
+    </div>
+</aside>
+
+<script>
+    function lettercount(e) {
+        const max = e.getAttribute('maxlength') || 500;
+        const len = e.value.length;
+        document.getElementById("counter").textContent = `(${len}/${max})`;
+    }
+    document.querySelector('.send').addEventListener('click', () => {
+        const textarea = document.getElementById('message');
+        const text = textarea.value.trim();
+        if (text === '') return;
+
+        // 사용자 메시지 추가
+        const userMsg = document.createElement('div');
+        userMsg.classList.add('user-message');
+        userMsg.innerHTML = `<div class="message-bubble user">${text}</div>`;
+        document.querySelector('.chat-container').appendChild(userMsg);
+
+        // 입력창 초기화
+        textarea.value = '';
+        document.getElementById("counter").textContent = "(0/500)";
+
+        // 자동 스크롤
+        document.querySelector('.chat-container').scrollTop = document.querySelector('.chat-container').scrollHeight;
+    });
+
+
+
+</script>
+
+{% endblock content %}
