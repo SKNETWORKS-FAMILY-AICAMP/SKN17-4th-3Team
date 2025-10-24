@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib import messages
+from django.contrib import messages, auth
 from django.contrib.auth import authenticate, login as auth_login
 from uauth.models import UserForm
 from django.http import JsonResponse
@@ -26,7 +26,6 @@ def login_view(request):
     return redirect('uauth:main')
 
 
-# 회원가입 관련 코드 
 def signup(request):
     if request.method == 'POST':
         form = UserForm(request.POST, request.FILES)
@@ -36,11 +35,12 @@ def signup(request):
             print(form.cleaned_data['email'])
             user = form.save()
             messages.success(request, '회원가입 완료!')
+
             return redirect('uauth:main')
     else:
         form = UserForm()
     
-    return render(request, 'uauth/signup.html', {'form':form})
+    return render(request, 'uauth/signup.html', {'form':form}) 
 
 # 이메일 인증코드 전송
 def send_verification_code(request):
