@@ -29,10 +29,13 @@
 <aside class="sidebar">
   <br></br>
   <div class="top-actions">
-    <button class="btn primary">비밀번호 변경</button>
-    <button class="btn destructive">로그아웃</button>
-    <button class="btn primary">새 채팅</button>
-    <button class="btn destructive">삭제</button>
+    <form action="{% url 'chat:logout' %}" method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn destructive">로그아웃</button>
+    </form>
+    <button type="button" class="btn primary">비밀번호 변경</button>
+    <button type='button' class="btn primary">새 채팅</button>
+    <button type='button' class="btn destructive">삭제</button>
   </div>
 
     <div class="chat-item">
@@ -82,8 +85,8 @@
         document.querySelector('.chat-container').scrollTop = document.querySelector('.chat-container').scrollHeight;
     });
 
-
-
 </script>
+
+
 
 {% endblock content %}
