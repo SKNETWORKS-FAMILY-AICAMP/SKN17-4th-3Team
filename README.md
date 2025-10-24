@@ -197,9 +197,7 @@ Malta대학교의 Mark Anthony Camilleri 교수의 연구에 따르면, 최근 �
 
 ---
 
-## 6. 📝요구사항 명세서
-
-<img src="img/요구사항명세서.png" width=700/>
+## 6. 📝화면설계서
 
 ---
 
