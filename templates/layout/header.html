@@ -1,5 +1,7 @@
 {% load static %}
 <header>
-    <img src="{% static 'images/logo.png' %}" href="{% url 'uauth:main' %}"/>
+    <a href="{% url 'uauth:main' %}">
+        <img src="{% static 'images/logo.png' %}"/>
+    </a>
     <span>떠나봄</span>
 </header>
