@@ -4,4 +4,7 @@
         <img src="{% static 'images/logo.png' %}"/>
     </a>
     <span>떠나봄</span>
+    {% if is_signup_page %}
+        <span class="page-title">회원가입</span>
+    {% endif %}
 </header>
