@@ -7,5 +7,5 @@ app_name = 'chat'
 urlpatterns = [
     path('',views.chat_main, name='chat_main'),
     path('withdraw/', views.withdraw_view, name='withdraw'),
-    path('logout/',views.logout, name='logout'),
+    path('logout/',views.logout_view, name='logout'),
 ]
