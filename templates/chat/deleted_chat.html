@@ -1,0 +1,28 @@
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/modal.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+<button id="openBtn" class="btn">삭제</button>
+
+<div id="modal" class="modal hidden">
+  <div class="modal-content">
+    <p>선택한 채팅이 삭제되었습니다.</p>
+    <button id="closeBtn">닫기</button>
+  </div>
+</div>
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+  const modal = document.getElementById('modal');
+  const openBtn = document.getElementById('openBtn');
+  const closeBtn = document.getElementById('closeBtn');
+
+  openBtn.addEventListener('click', () => modal.classList.remove('hidden'));
+  closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+
+</script>
+{% endblock extra_js %}

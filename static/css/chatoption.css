@@ -1,0 +1,887 @@
+/* 지역선택 */
+.chatoption{
+    position: relative;
+    width: 531px;
+    height: 345px;
+
+    background: #FFFFFF;
+}
+
+
+/* 어떤 지역으로의 여행을 생각 중이신가요? 아래 선택지에서 골라주세요! */
+
+position: absolute;
+width: 394px;
+height: 54px;
+left: calc(50% - 394px/2 + 0.5px);
+top: 37px;
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 23px;
+line-height: 27px;
+text-align: center;
+
+color: #000000;
+
+
+
+/* 지역선택 */
+
+position: absolute;
+width: 385px;
+height: 124px;
+left: 73px;
+top: 120px;
+
+
+
+/* Group 31 */
+
+position: absolute;
+width: 385px;
+height: 38px;
+left: 73px;
+top: 120px;
+
+
+
+/* Group 25 */
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 73px;
+top: 120px;
+
+
+
+/* Rectangle 24 */
+.whitebutton{
+    position: absolute;
+    width: 60px;
+    height: 38px;
+    left: 73px;
+    top: 120px;
+    
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 10px;
+}
+
+
+/* 서울 */
+
+position: absolute;
+width: 43px;
+height: 27px;
+left: calc(50% - 43px/2 - 162px);
+top: calc(50% - 27px/2 - 33px);
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 23px;
+line-height: 27px;
+/* 상자 높이와 동일 */
+
+color: #000000;
+
+
+
+/* Group 26 */
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 138px;
+top: 120px;
+
+
+
+/* Rectangle 24 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 138px;
+top: 120px;
+
+border: 1px solid #000000;
+border-radius: 10px;
+
+
+/* 부산 */
+
+position: absolute;
+width: 43px;
+height: 27px;
+left: calc(50% - 43px/2 - 97px);
+top: calc(50% - 27px/2 - 33px);
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 23px;
+line-height: 27px;
+/* 상자 높이와 동일 */
+
+color: #000000;
+
+
+
+/* Group 27 */
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 203px;
+top: 120px;
+
+
+
+/* Rectangle 24 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 203px;
+top: 120px;
+
+border: 1px solid #000000;
+border-radius: 10px;
+
+
+/* 대구 */
+
+position: absolute;
+width: 43px;
+height: 27px;
+left: calc(50% - 43px/2 - 32px);
+top: calc(50% - 27px/2 - 33px);
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 23px;
+line-height: 27px;
+/* 상자 높이와 동일 */
+
+color: #000000;
+
+
+
+/* Group 28 */
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 268px;
+top: 120px;
+
+
+
+/* Rectangle 24 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 268px;
+top: 120px;
+
+border: 1px solid #000000;
+border-radius: 10px;
+
+
+/* 인천 */
+
+position: absolute;
+width: 43px;
+height: 27px;
+left: calc(50% - 43px/2 + 33px);
+top: calc(50% - 27px/2 - 33px);
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 23px;
+line-height: 27px;
+/* 상자 높이와 동일 */
+
+color: #000000;
+
+
+
+/* Group 29 */
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 333px;
+top: 120px;
+
+
+
+/* Rectangle 24 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 333px;
+top: 120px;
+
+border: 1px solid #000000;
+border-radius: 10px;
+
+
+/* 광주 */
+
+position: absolute;
+width: 43px;
+height: 27px;
+left: calc(50% - 43px/2 + 98px);
+top: calc(50% - 27px/2 - 33px);
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 23px;
+line-height: 27px;
+/* 상자 높이와 동일 */
+
+color: #000000;
+
+
+
+/* Group 30 */
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 398px;
+top: 120px;
+
+
+
+/* Rectangle 24 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 398px;
+top: 120px;
+
+background: #D2E0FB;
+border: 1px solid #000000;
+border-radius: 10px;
+
+
+/* 대전 */
+
+position: absolute;
+width: 43px;
+height: 27px;
+left: calc(50% - 43px/2 + 163px);
+top: calc(50% - 27px/2 - 33px);
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 23px;
+line-height: 27px;
+/* 상자 높이와 동일 */
+
+color: #000000;
+
+
+
+/* Group 32 */
+
+position: absolute;
+width: 385px;
+height: 38px;
+left: 73px;
+top: 163px;
+
+
+
+/* Group 25 */
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 73px;
+top: 163px;
+
+
+
+/* Rectangle 24 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 73px;
+top: 163px;
+
+border: 1px solid #000000;
+border-radius: 10px;
+
+
+/* 울산 */
+
+position: absolute;
+width: 43px;
+height: 27px;
+left: calc(50% - 43px/2 - 162px);
+top: calc(50% - 27px/2 + 10px);
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 23px;
+line-height: 27px;
+/* 상자 높이와 동일 */
+
+color: #000000;
+
+
+
+/* Group 26 */
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 138px;
+top: 163px;
+
+
+
+/* Rectangle 24 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 138px;
+top: 163px;
+
+border: 1px solid #000000;
+border-radius: 10px;
+
+
+/* 세종 */
+
+position: absolute;
+width: 43px;
+height: 27px;
+left: calc(50% - 43px/2 - 97px);
+top: calc(50% - 27px/2 + 10px);
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 23px;
+line-height: 27px;
+/* 상자 높이와 동일 */
+
+color: #000000;
+
+
+
+/* Group 27 */
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 203px;
+top: 163px;
+
+
+
+/* Rectangle 24 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 203px;
+top: 163px;
+
+border: 1px solid #000000;
+border-radius: 10px;
+
+
+/* 경기 */
+
+position: absolute;
+width: 43px;
+height: 27px;
+left: calc(50% - 43px/2 - 32px);
+top: calc(50% - 27px/2 + 10px);
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 23px;
+line-height: 27px;
+/* 상자 높이와 동일 */
+
+color: #000000;
+
+
+
+/* Group 28 */
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 268px;
+top: 163px;
+
+
+
+/* Rectangle 24 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 268px;
+top: 163px;
+
+border: 1px solid #000000;
+border-radius: 10px;
+
+
+/* 강원 */
+
+position: absolute;
+width: 43px;
+height: 27px;
+left: calc(50% - 43px/2 + 33px);
+top: calc(50% - 27px/2 + 10px);
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 23px;
+line-height: 27px;
+/* 상자 높이와 동일 */
+
+color: #000000;
+
+
+
+/* Group 29 */
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 333px;
+top: 163px;
+
+
+
+/* Rectangle 24 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 333px;
+top: 163px;
+
+border: 1px solid #000000;
+border-radius: 10px;
+
+
+/* 충북 */
+
+position: absolute;
+width: 43px;
+height: 27px;
+left: calc(50% - 43px/2 + 98px);
+top: calc(50% - 27px/2 + 10px);
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 23px;
+line-height: 27px;
+/* 상자 높이와 동일 */
+
+color: #000000;
+
+
+
+/* Group 30 */
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 398px;
+top: 163px;
+
+
+
+/* Rectangle 24 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 398px;
+top: 163px;
+
+border: 1px solid #000000;
+border-radius: 10px;
+
+
+/* 충남 */
+
+position: absolute;
+width: 43px;
+height: 27px;
+left: calc(50% - 43px/2 + 163px);
+top: calc(50% - 27px/2 + 10px);
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 23px;
+line-height: 27px;
+/* 상자 높이와 동일 */
+
+color: #000000;
+
+
+
+/* Group 33 */
+
+position: absolute;
+width: 385px;
+height: 38px;
+left: 73px;
+top: 206px;
+
+
+
+/* Group 25 */
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 73px;
+top: 206px;
+
+
+
+/* Rectangle 24 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 73px;
+top: 206px;
+
+border: 1px solid #000000;
+border-radius: 10px;
+
+
+/* 경북 */
+
+position: absolute;
+width: 43px;
+height: 27px;
+left: calc(50% - 43px/2 - 162px);
+top: calc(50% - 27px/2 + 53px);
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 23px;
+line-height: 27px;
+/* 상자 높이와 동일 */
+
+color: #000000;
+
+
+
+/* Group 26 */
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 138px;
+top: 206px;
+
+
+
+/* Rectangle 24 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 138px;
+top: 206px;
+
+border: 1px solid #000000;
+border-radius: 10px;
+
+
+/* 경남 */
+
+position: absolute;
+width: 43px;
+height: 27px;
+left: calc(50% - 43px/2 - 97px);
+top: calc(50% - 27px/2 + 53px);
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 23px;
+line-height: 27px;
+/* 상자 높이와 동일 */
+
+color: #000000;
+
+
+
+/* Group 27 */
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 203px;
+top: 206px;
+
+
+
+/* Rectangle 24 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 203px;
+top: 206px;
+
+border: 1px solid #000000;
+border-radius: 10px;
+
+
+/* 전북 */
+
+position: absolute;
+width: 43px;
+height: 27px;
+left: calc(50% - 43px/2 - 32px);
+top: calc(50% - 27px/2 + 53px);
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 23px;
+line-height: 27px;
+/* 상자 높이와 동일 */
+
+color: #000000;
+
+
+
+/* Group 28 */
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 268px;
+top: 206px;
+
+
+
+/* Rectangle 24 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 268px;
+top: 206px;
+
+border: 1px solid #000000;
+border-radius: 10px;
+
+
+/* 전남 */
+
+position: absolute;
+width: 43px;
+height: 27px;
+left: calc(50% - 43px/2 + 33px);
+top: calc(50% - 27px/2 + 53px);
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 23px;
+line-height: 27px;
+/* 상자 높이와 동일 */
+
+color: #000000;
+
+
+
+/* Group 29 */
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 333px;
+top: 206px;
+
+
+
+/* Rectangle 24 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 333px;
+top: 206px;
+
+border: 1px solid #000000;
+border-radius: 10px;
+
+
+/* 제주 */
+
+position: absolute;
+width: 43px;
+height: 27px;
+left: calc(50% - 43px/2 + 98px);
+top: calc(50% - 27px/2 + 53px);
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 23px;
+line-height: 27px;
+/* 상자 높이와 동일 */
+
+color: #000000;
+
+
+
+/* Group 30 */
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 398px;
+top: 206px;
+
+
+
+/* Rectangle 24 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 60px;
+height: 38px;
+left: 398px;
+top: 206px;
+
+border: 1px solid #000000;
+border-radius: 10px;
+
+
+/* 전체 */
+
+position: absolute;
+width: 43px;
+height: 27px;
+left: calc(50% - 43px/2 + 163px);
+top: calc(50% - 27px/2 + 53px);
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 23px;
+line-height: 27px;
+/* 상자 높이와 동일 */
+
+color: #000000;
+
+
+
+/* Group 56 */
+
+position: absolute;
+width: 100px;
+height: 45px;
+left: 216px;
+top: 273px;
+
+
+
+/* Rectangle 9 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 100px;
+height: 45px;
+left: 216px;
+top: 273px;
+
+background: #FEF9D9;
+border: 1px solid #000000;
+border-radius: 10px;
+
+
+/* 완료 */
+
+position: absolute;
+width: 45px;
+height: 30px;
+left: calc(50% - 45px/2 + 1px);
+top: calc(50% - 30px/2 + 123.5px);
+
+font-family: 'Source Serif Pro';
+font-style: normal;
+font-weight: 400;
+font-size: 24px;
+line-height: 30px;
+/* 상자 높이와 동일 */
+text-align: center;
+
+color: #000000;
+

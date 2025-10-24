@@ -8,3 +8,12 @@ def chat_main(request):
 
 def logout(request):
     return render(request, 'chat/logout.html')
+
+def chat_choice(request):
+    return render(request, 'chat/chat_choice.html')
+
+def delete_chat(request):
+    return render(request, 'chat/delete_chat.html')
+
+def deleted_chat(request):
+    return render(request, 'chat/deleted_chat.html')

@@ -24,4 +24,8 @@ urlpatterns = [
     path('',RedirectView.as_view(url='uauth/')),
     path('uauth/', include('uauth.urls')),
     path('chat/', include('chat.urls')),
+    path('chat_choice/', views.chat_choice, name='chat_choice'),
+    path('delete_chat/', views.delete_chat, name='delete_chat'),
+    path('deleted_chat/', views.deleted_chat, name='deleted_chat'),
+    
 ]
