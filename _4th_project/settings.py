@@ -134,9 +134,3 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # 이메일 인증 관련 설정
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'pinokiojs@gmail.com'        # Gmail 주소
-EMAIL_HOST_PASSWORD = '@@980812Js'       # 앱 비밀번호
