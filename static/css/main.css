@@ -72,6 +72,8 @@ button {
     margin-right: 8px;
     border: 1px solid #333;
     width:125px;
+    background-color: #fff;  /* 기본 배경 */
+    color: #333;             /* 기본 글자색 */
 }
 
 /* .feedback {
