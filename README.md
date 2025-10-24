@@ -1,5 +1,5 @@
-# SKN17-3rd-3Team
-# 🗺️3RD_PROJECT_3TEAM
+# SKN17-4th-3Team
+# 🗺️4th_PROJECT_3TEAM
 
 ---
 # 📚 Contents
@@ -30,11 +30,6 @@
 ### 💡팀명 : **오솔길**
 
 <br>
-
-✔️ 팀명 뜻 : **오솔길**은 숲속을 오가는 다람쥐와 인간이 자연스럽게 만들어낸 작은 길로 자연과 인간이 공존하는 길입니다. 팀원들이 강사님과 함께 교감하며 새로운 길을 만들며 앞으로 나아가겠다는 의미를 담고 있습니다.
-
-
-
 <br>
 
 ---
@@ -56,7 +51,7 @@
 
 <br>
 
-## **🛫프로젝트 명 : 도와줘 관광피티(관광 길라잡이)** 
+## **🛫프로젝트 명 : 떠나봄🌸** 
 
 <br>
 
@@ -193,10 +188,11 @@ Malta대학교의 Mark Anthony Camilleri 교수의 연구에 따르면, 최근 �
 
 ---
 
-## 5. 🖼️ WBS
+## 5. 🖼️ 요구사항 명세서
+<img width="1435" height="617" alt="image" src="https://github.com/user-attachments/assets/6b25d5bb-ab54-4567-bc05-a929965c66b7" />
 
-		
-<img width="964" height="409" alt="image" src="https://github.com/user-attachments/assets/ad3d9aa7-c324-4c11-9da6-90727d9254c2" />
+
+
 
 
 ---
