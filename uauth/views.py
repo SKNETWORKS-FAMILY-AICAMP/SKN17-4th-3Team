@@ -36,7 +36,7 @@ def signup(request):
             user = form.save()
             messages.success(request, '회원가입 완료!')
 
-            return redirect('app:main')
+            return redirect('uauth:main')
     else:
         form = UserForm()
     
