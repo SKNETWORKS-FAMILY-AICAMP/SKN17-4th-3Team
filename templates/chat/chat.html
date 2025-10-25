@@ -47,7 +47,7 @@
     <button type='button' class="btn destructive">삭제</button>
   </div>
   
-  <div class="chat-list">
+  {% comment %} <div class="chat-list">
     <div class="chat-item">
       <input type="checkbox">
       <div class="date">2025-10-10 대전</div>
@@ -60,6 +60,25 @@
       <input type="checkbox">
       <div class="date">2025-10-08 서울</div>
     </div>
+  </div> {% endcomment %}
+
+  <div class="chat-list">
+    {% for chat_item in chats %}
+    <div class="chat-item {% if chat_item.id == active_chat_id %}active{% endif %}">
+      <!-- 체크박스 -->
+      <input type="checkbox" name="selected_chat" value="{{ chat_item.id }}">
+      <!-- 날짜 텍스트 부분에만 링크 걸기 -->
+      <div class="date">
+        <a href="{% url 'chat:chat_main_with_id' chat_item.id %}" style="color:inherit; text-decoration:none;">
+          {{ chat_item.created_at|date:"Y-m-d" }} {{ chat_item.area }}
+        </a>
+      </div>
+    </div>
+    {% empty %}
+    <div class="chat-item">
+      <div class="date">채팅 기록이 없습니다.</div>
+    </div>
+    {% endfor %}
   </div>
 
   <a href="{% url 'chat:withdraw' %}" class="delete-account-btn">회원탈퇴</a>

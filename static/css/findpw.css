@@ -5,14 +5,44 @@ body {
 
 /* 본문 */
 .findpw-container {
-  text-align: center;
-  margin-top: 120px;
+    padding: 0;
+    width: 750px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-group {
+    margin-bottom: 25px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-left:0;
+}
+
+.form-group label {
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 500;
+    width:150px;
+    text-align: left;
+    padding-right: 10px;
+    margin-top:8px;
+    margin-bottom: 0;
+    color: #333;
+    flex-shrink: 0;
 }
 
 .findpw-container h2 {
   font-size: 22px;
   margin-bottom: 30px;
   color: #333;
+  text-align:center;
+  display:flex;
+  align-items:center;
 }
 
 /* 입력 폼 */
@@ -25,7 +55,27 @@ body {
   display: flex;
   align-items: center;
   justify-content: flex-start; /* 왼쪽 정렬 */
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+}
+/* 안내문 */
+.guide-text {
+    font-size: 13px;
+    left:110px;
+    margin-top: 0;
+    display: block;
+    color: black;
+    margin-left:140px;
+    text-align: left;
+    margin-top:10px;
+}
+
+/* 에러 문구 */
+.error-text {
+    display: block;
+    font-size: 13px;
+    color: red;
+    text-align: center;
+    margin:0;
 }
 
 /* 라벨 기본 스타일 */
@@ -41,7 +91,7 @@ label {
 input[type="email"],
 input[type="text"],
 input[type="password"] {
-  height: 30px;
+  height: 20px;
   border: 1.5px solid #999;
   border-radius: 6px;
   padding: 6px 10px;
@@ -50,19 +100,14 @@ input[type="password"] {
   margin-right: 10px;
 }
 
-input:focus {
-  outline: none;
-  border-color: #a5d8a0;
-}
 
 /* 버튼 */
 .small-btn {
   background-color: #fffbe9;
-  border: 1.5px solid #d6c784;
+  border: 1.5px solid #333;
   border-radius: 6px;
   font-size: 13px;
   padding: 5px 12px;
-  cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
@@ -228,4 +273,68 @@ input + p {
   margin-top: 6px;
   font-size: 13px;
   color: #333;
+}
+
+/* ============================== */
+/* ✅ guide-text 정렬 개선 버전 */
+/* ============================== */
+
+/* 각 입력칸 구조 정리 */
+.form-box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 25px;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* guide-text (안내문) 스타일 — 입력칸 바로 아래에 표시 */
+.guide-text {
+  display: block;
+  font-size: 13px;
+  color: #444;
+  margin-top: 6px;
+  margin-left: 132px; /* 라벨 폭 맞춤 */
+  line-height: 1.4;
+  text-align: left;
+}
+
+/* 입력박스 구조 수정 */
+.input-box {
+  display: flex;
+  flex-direction: column;
+}
+
+/* input 밑에 바로 붙게 함 */
+.input-box .guide-text {
+  margin-left: 0; /* input 기준 왼쪽 정렬 */
+}
+
+/* 라벨과 입력칸 기본 정렬 */
+label {
+  width: 130px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #333;
+  flex-shrink: 0;
+}
+
+/* 이메일 / 인증코드 / 비밀번호 행 통합 스타일 */
+.email-row,
+.code-row,
+.newpw-row,
+.confirmpw-row {
+  align-items: flex-start; /* 라벨 위쪽 정렬 */
+}
+
+.email-row .input-box,
+.code-row .input-box,
+.newpw-row .input-box,
+.confirmpw-row .input-box {
+  flex: 1;
 }

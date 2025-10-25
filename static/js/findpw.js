@@ -1,218 +1,190 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const emailInput = document.getElementById("email");
-  const sendCodeBtn = document.getElementById("sendCodeBtn");
-  const verifyBtn = document.getElementById("verifyBtn");
-  const resendBtn = document.getElementById("resendBtn");
-  const codeInput = document.getElementById("code");
-  const newPwInput = document.getElementById("newPw");
-  const confirmPwInput = document.getElementById("confirmPw");
+const emailInput = document.getElementById("email");
+const sendCodeBtn = document.getElementById("sendCodeBtn");
+const verifyBtn = document.getElementById("verifyBtn");
+const resendBtn = document.getElementById("resendBtn");
+const codeInput = document.getElementById("code");
+const newPwInput = document.getElementById("newPw");
+const confirmPwInput = document.getElementById("confirmPw");
+const completeBtn = document.getElementById("completeBtn");
 
-  // 새 비밀번호 입력란 비활성화 (인증 완료 전까지)
-  newPwInput.disabled = true;
-  confirmPwInput.disabled = true;
-  newPwInput.style.backgroundColor = "#f5f5f5";
-  confirmPwInput.style.backgroundColor = "#f5f5f5";
-  newPwInput.style.cursor = "not-allowed";
-  confirmPwInput.style.cursor = "not-allowed";
+let isEmailChecked = false;
+let isEmailVerified = false;
+let verificationTimer;
+let remainingTime = 0;
 
-  // 메시지 요소 생성
-  const emailMsg = document.createElement("p");
-  const messageContainer = document.createElement("p");
-  const pwRuleMsg = document.createElement("p");
-  const pwMatchMsg = document.createElement("p");
+// 초기 상태: 인증 관련 요소 모두 비활성화
+function disableVerificationArea() {
+    resendBtn.style.backgroundColor = "#E7E7E7";
+    verifyBtn.style.backgroundColor = "#E7E7E7";
+    verifyInput.style.backgroundColor = '#E7E7E7';
+    resendBtn.style.cursor = "not-allowed";
+    verifyBtn.style.cursor = 'not-allowed';
+    sendCodeBtn.style.cursor = 'pointer';
 
-  emailMsg.style.cssText = "font-size:13px;margin-top:6px;";
-  messageContainer.style.cssText = "font-size:13px;margin-top:6px;color:#333;";
-  pwRuleMsg.style.cssText = "font-size:13px;margin-top:6px;color:#333;";
-  pwMatchMsg.style.cssText = "font-size:13px;margin-top:6px;color:#333;";
+    if (verifyInput) verifyInput.disabled = true;
+    if (verifyBtn) verifyBtn.disabled = true;
+    if (resendBtn) resendBtn.disabled = true;
+}
+disableVerificationArea();
 
-  document.querySelector(".email-row .input-box").appendChild(emailMsg);
-  document.querySelector(".code-row .input-box").appendChild(messageContainer);
-  document.querySelector(".newpw-row .input-box").appendChild(pwRuleMsg);
-  document.querySelector(".confirmpw-row .input-box").appendChild(pwMatchMsg);
-
-  emailInput.insertAdjacentElement("afterend", emailMsg);
-  codeInput.insertAdjacentElement("afterend", messageContainer);
-  newPwInput.parentNode.appendChild(pwRuleMsg);
-  confirmPwInput.parentNode.appendChild(pwMatchMsg);
-
-  let timer = null;
-  let remainingTime = 300;
-  let codeSent = false;
-  let freezeMessage = false;
-  let wrongAttempt = false;
-  const correctCode = "123456";
-  const allowedEmail = "jennyuu0429@naver.com";
-  setButtonState(false); // 페이지 로드 시 인증확인/재전송 버튼 비활성화
-  setSendButtonState(true); // 인증코드 발급 버튼은 기본 활성화 상태 유지
-
-  // 버튼 활성화/비활성화
-  function setButtonState(active) {
-    [verifyBtn, resendBtn].forEach(btn => {
-      btn.disabled = !active;
-      btn.style.backgroundColor = active ? "#fff9cf" : "#f1f1f1";
-      btn.style.border = active ? "1.5px solid #d6c784" : "1.5px solid #aaa";
-      btn.style.cursor = active ? "pointer" : "not-allowed";
-    });
-  }
-
-  function setSendButtonState(active) {
-    sendCodeBtn.disabled = !active;
-    sendCodeBtn.style.backgroundColor = active ? "#fff9cf" : "#f1f1f1";
-    sendCodeBtn.style.border = active ? "1.5px solid #d6c784" : "1.5px solid #aaa";
-    sendCodeBtn.style.cursor = active ? "pointer" : "not-allowed";
-  }
-
-  // 시간 포맷
-  const formatTime = sec => `${Math.floor(sec / 60)}:${(sec % 60).toString().padStart(2, "0")}`;
-
-  // 메시지 업데이트
-  function updateMessage() {
-    if (!freezeMessage) {
-      if (wrongAttempt) {
-        messageContainer.innerHTML = `<span style="color:red;">인증코드가 틀렸습니다. 다시 확인해주세요.</span> 남은 시간 ${formatTime(remainingTime)}`;
-      } else {
-        messageContainer.textContent = `5분 안에 인증코드를 입력해주세요. 남은 시간 ${formatTime(remainingTime)}`;
-      }
-    }
-  }
-
-  // 타이머 시작
-  function startTimer() {
-    clearInterval(timer);
-    remainingTime = 300;
-    codeSent = true;
-    freezeMessage = false;
-    wrongAttempt = false;
-    updateMessage();
-
-    timer = setInterval(() => {
-      remainingTime--;
-      if (remainingTime <= 0) {
-        clearInterval(timer);
-        messageContainer.textContent = "인증시간이 만료되었습니다.";
-        messageContainer.style.color = "red";
-        codeSent = false;
-        setButtonState(false);
-      } else {
-        updateMessage();
-      }
-    }, 1000);
-  }
-
-  // 이메일 검사
-  emailInput.addEventListener("input", () => {
-    const email = emailInput.value.trim();
-    const pattern = /^[^\s@]+@[^\s@]+\.[A-Za-z]{3,}$/;
+//이메일 올바른 형식인지 확인하는 코드
+document.getElementById('email').addEventListener('input', () => {
+    const email = emailInput.value;
+    const msg = document.getElementById('email-message');
+    isEmailChecked = false; 
     
-    if (email === "") {
-      emailMsg.textContent = "";
-      setSendButtonState(false);
-      return;
-    }
-  // 이메일 형식 검사
-    if (!pattern.test(email)) {
-        emailMsg.textContent = "정확한 이메일 형식으로 입력해주세요.";
-        emailMsg.style.color = "red";
-        setSendButtonState(false);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+
+    if (email === '') {
+        msg.style.color = 'black';
+        msg.textContent = '이메일을 입력하세요.';
+        isEmailValidFormat = false;
+    } else if (!emailRegex.test(email)) {
+        msg.style.color = 'red';
+        msg.textContent = '올바른 이메일 형식이 아닙니다.';
+        isEmailValidFormat = false;
+    } else if (
+        
+    )
+});
+
+// 인증코드 발급 클릭
+sendCodeBtn.addEventListener('click', async () => {
+    const email = emailInput.value.trim();
+    const msg = document.getElementById('email-message');
+    if (!email) {
+        msg.style.color = "red";
+        msg.textContent = "이메일을 입력하세요.";
         return;
     }
-    if (email === allowedEmail) {
-      emailMsg.textContent = "가입할 수 있는 이메일입니다.";
-      emailMsg.style.color = "blue";
-      setSendButtonState(true);
+
+    const response = await fetch(`/uauth/check_email/?email=${email}`);
+    const data = await response.json();
+
+    if (data.exists) {
+        msg.style.color = "red";
+        msg.textContent = "이미 가입되어 있는 이메일입니다.";
+        disableVerificationArea();
+        isEmailChecked = false;
     } else {
-      emailMsg.textContent = "이미 가입되어있는 이메일입니다.";
-      emailMsg.style.color = "red";
-      setSendButtonState(false);
-    }
-  });
+        msg.style.color = "#2600FF";
+        msg.textContent = "가입할 수 있는 이메일입니다.";
+        isEmailChecked = true;
 
-  // 인증코드 발급
-  sendCodeBtn.addEventListener("click", () => {
-    alert("인증코드가 발급되었습니다! (테스트용 코드: 123456)");
-    startTimer();
-    setButtonState(true);
-  });
-
-  // 인증 확인
-  verifyBtn.addEventListener("click", () => {
-    if (!codeSent) {
-      messageContainer.textContent = "먼저 인증코드를 발급받으세요.";
-      messageContainer.style.color = "red";
-      return;
+        // ✅ 인증코드 발급 버튼 활성화 (파란색)
+        sendCodeBtn.disabled = false;
+        resendBtn.disabled=false;
+        sendCodeBtn.style.backgroundColor = "#D2E0FB";
+        sendCodeBtn.style.color = 'black';
+        sendCodeBtn.style.cursor = "pointer";
     }
-    if (remainingTime <= 0) {
-      messageContainer.textContent = "인증시간이 만료되었습니다.";
-      messageContainer.style.color = "red";
-      setButtonState(false);
-      return;
+    startTimer(300); // 5분
+});
+
+// 인증 확인 버튼 클릭
+verifyBtn.addEventListener('click', async () => {
+    const email = emailInput.value.trim();
+    const code = verifyInput.value.trim();
+
+    if (!code) {
+        verifyMsg.textContent = "시간 내에 인증코드를 정확히 입력해주세요.";
+        verifyMsg.style.color = "red";
+        return;
     }
 
-    const enteredCode = codeInput.value.trim();
-    if (enteredCode === correctCode) {
-      clearInterval(timer);
-      freezeMessage = true;
-      wrongAttempt = false;
-      messageContainer.textContent = "인증이 완료되었습니다.";
-      messageContainer.style.color = "blue";
-      setButtonState(false);
-      newPwInput.disabled = false;
-      confirmPwInput.disabled = false;
-      newPwInput.style.backgroundColor = "#ffffff";
-      confirmPwInput.style.backgroundColor = "#ffffff";
-      newPwInput.style.cursor = "text";
-      confirmPwInput.style.cursor = "text";
+    const res = await fetch(`/uauth/verify_code/?email=${email}&code=${code}`);
+    const data = await res.json();
+
+    if (data.result === 'success') {
+        verifyMsg.textContent = "인증이 완료되었습니다.";
+        verifyMsg.style.color = "#2600FF";
+        clearInterval(verificationTimer);
+        isEmailVerified = true;
+
+        // ✅ 입력칸 / 버튼 비활성화
+        verifyInput.disabled = true;
+        verifyInput.style.backgroundColor = '#E7E7E7';
+        verifyInput.style.cursor = 'not-allowed';
+
+        verifyBtn.disabled = true;
+        verifyBtn.style.backgroundColor = '#E7E7E7';
+        verifyBtn.style.cursor = 'not-allowed';
+
+        resendBtn.disabled = true;
+        resendBtn.style.backgroundColor = '#E7E7E7';
+        resendBtn.style.cursor = 'not-allowed'; 
+
+
+    } else if (data.result === 'timeout') {
+        verifyMsg.textContent = "시간이 초과되었습니다. 인증코드를 재발급 받아주세요.";
+        verifyMsg.style.color = "red";
     } else {
-      wrongAttempt = true;
-      freezeMessage = false;
-      updateMessage();
+        verifyMsg.textContent = "인증코드가 틀렸습니다. 다시 확인해주세요.";
+        verifyMsg.style.color = "red";
     }
-  });
+});
 
-  // 재전송
-  resendBtn.addEventListener("click", () => {
-    alert("인증코드가 재전송되었습니다! (테스트용 코드: 123456)");
-    startTimer();
-  });
+// 인증코드 재전송 버튼
+resendBtn.addEventListener('click', async () => {
+    const email = emailInput.value.trim();
+    if (!email || !isEmailChecked) {
+        verifyMsg.textContent = "먼저 이메일을 입력하고 중복 확인을 완료해주세요.";
+        verifyMsg.style.color = "red";
+        return;
+    }
 
-  // 비밀번호 정규식 검사
-  function validatePassword(pw) {
-    const pattern = /^[A-Za-z0-9]{4,15}$/;
-    return pattern.test(pw);
-  }
+    // 서버에 인증코드 재전송 요청
+    const res = await fetch(`/uauth/send_code/?email=${email}`);
+    const data = await res.json();
 
-  // 새 비밀번호 입력 시
-  newPwInput.addEventListener("input", () => {
-    if (validatePassword(newPwInput.value)) {
-      pwRuleMsg.style.color = "#333";
-      pwRuleMsg.textContent = "4~15자의 영어 대/소문자, 숫자를 사용하세요.";
+    // 사용자에게 안내 메시지 표시
+    if (data.message) {
+        verifyMsg.textContent = "새 인증코드를 이메일로 전송했습니다.";
+        verifyMsg.style.color = "#2600FF";
+        alert("새 인증코드가 전송되었습니다."); // 선택: 알림창 표시
     } else {
-      pwRuleMsg.style.color = "red";
-      pwRuleMsg.textContent = "4~15자의 영어 대/소문자, 숫자를 사용하세요.";
+        verifyMsg.textContent = "인증코드 재전송에 실패했습니다. 다시 시도해주세요.";
+        verifyMsg.style.color = "red";
     }
-    checkPasswordMatch();
-  });
 
-  // 비밀번호 일치 확인
-  confirmPwInput.addEventListener("input", checkPasswordMatch);
-  function checkPasswordMatch() {
-    const pw = newPwInput.value;
-    const confirmPw = confirmPwInput.value;
-    if (confirmPw === "") {
-      pwMatchMsg.textContent = "";
-      return;
-    }
-    if (pw === confirmPw) {
-      pwMatchMsg.textContent = "비밀번호가 일치합니다.";
-      pwMatchMsg.style.color = "blue";
-    } else {
-      pwMatchMsg.textContent = "비밀번호가 일치하지 않습니다.";
-      pwMatchMsg.style.color = "red";
-    }
-  }
+    // ✅ 타이머 및 입력칸 초기화
+    verifyInput.value = "";           // 기존 인증코드 입력값 초기화
+    clearInterval(verificationTimer); // 기존 타이머 중지
+    startTimer(300);                  // 새로 5분 타이머 시작
 
-    const completeBtn = document.getElementById("completeBtn");
+    resendBtn.disabled = true;        // 재전송 직후 잠시 비활성화 (남용 방지)
+    resendBtn.style.cursor = "not-allowed";
+
+    setTimeout(() => {
+        resendBtn.disabled = false;
+        resendBtn.style.cursor = "pointer";
+    }, 10000); // 10초 후 다시 활성화
+});
+
+// 타이머 표시
+function startTimer(seconds) {
+    clearInterval(verificationTimer);
+    remainingTime = seconds;
+
+    const timerDisplay = document.getElementById('timer');
+    verificationTimer = setInterval(() => {
+        remainingTime--;
+        const min = Math.floor(remainingTime / 60);
+        const sec = remainingTime % 60;
+        timerDisplay.textContent = `${min}:${sec.toString().padStart(2, '0')}`;
+        timerDisplay.style.color = "#333";
+
+        if (remainingTime <= 0) {
+            clearInterval(verificationTimer);
+            timerDisplay.textContent = "시간 초과";
+            timerDisplay.style.color='red';
+            resendBtn.disabled = false;
+            resendBtn.style.cursor = "pointer";
+        }
+    }, 1000);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
 
   // 완료 버튼 위 메시지 표시용 요소 생성
   const completeMsg = document.createElement("p");

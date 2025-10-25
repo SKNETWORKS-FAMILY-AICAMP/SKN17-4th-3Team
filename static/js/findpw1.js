@@ -1,5 +1,3 @@
-// 이메일 중복 확인 코드 + 이메일 인증코드 발급 코드
-
 const emailInput = document.getElementById('id_email');
 const checkEmailBtn = document.getElementById('check-email-btn');
 const sendCodeBtn = document.getElementById('send-code-btn');
@@ -216,11 +214,9 @@ function startTimer(seconds) {
     }, 1000);
 }
 
-
 let isEmailValidFormat = false;
 let isPwValidFormat = false;
 let isPwMatch = false;
-let isNicknameValid = false;
 
 document.getElementById('id_email').addEventListener('input', () => {
     const email = document.getElementById('id_email').value;
@@ -243,8 +239,6 @@ document.getElementById('id_email').addEventListener('input', () => {
         isEmailValidFormat = true;
     }
 });
-
-//이메일 인증코드 관련 코드
 
 
 // 비밀번호 체크
@@ -293,28 +287,6 @@ document.getElementById('id_password2').addEventListener('input', () => {
         isPwMatch = false;
     }
 });
-
-// 닉네임 체크
-document.getElementById('id_nickname').addEventListener('input', () => {
-    const nick = document.getElementById('id_nickname').value;
-    const msg = document.getElementById('nickname-message');
-    const regex = /^[A-Za-z가-힣]{2,10}$/;
-
-    if (nick === ''){
-        msg.style.color = 'black';
-        msg.textContent = '2~10자 사이의 한국어, 영어만 사용 가능합니다.';
-        isNicknameValid = false;
-    } else if (!regex.test(nick)){
-        msg.style.color = 'red';
-        msg.textContent = '2~10자 사이의 한국어, 영어만 사용 가능합니다.';
-        isNicknameValid = false;
-    } else{
-        msg.style.color = 'blue';
-        msg.textContent = '사용 가능한 닉네임입니다.';
-        isNicknameValid = true;
-    }
-});
-
 function validateEmail(){
     const email = document.getElementById('id_email').value.trim();
     const msg = document.getElementById('email-message');
@@ -333,11 +305,6 @@ function validatePasswordMatch(){
     return pw1 !== '' && pw1 == pw2;
 }
 
-function validateNickname(){
-    const nick = document.getElementById('id_nickname').value;
-    const regex = /^[A-Za-z가-힣]{2,10}$/;
-    return regex.test(nick);
-}
 
 document.getElementById('signup-form').addEventListener('submit', (e) => {
     const formError = document.getElementById('js-form-error');
@@ -345,7 +312,6 @@ document.getElementById('signup-form').addEventListener('submit', (e) => {
     
     const isEmailFinal = isEmailChecked;
     const isPwFinal = isPwValidFormat && isPwMatch;
-    const isNickFinal = isNicknameValid;
     
     if (!isEmailFinal || !isPwFinal || !isNickFinal) {
         e.preventDefault(); // 폼 전송 중단
@@ -363,9 +329,6 @@ document.getElementById('signup-form').addEventListener('submit', (e) => {
         }
         if (!isPwMatch) {
             document.getElementById('pw2-message').style.color = 'red';
-        }
-        if (!isNicknameValid) {
-            document.getElementById('nickname-message').style.color = 'red';
         }
     }
 });
