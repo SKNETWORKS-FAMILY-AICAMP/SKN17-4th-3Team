@@ -17,11 +17,9 @@ def login_view(request):
         password = request.POST.get('password')
         user = authenticate(request, username=email, password=password)
         if user is not None:
-            print("로그인 성공:", user)
             auth_login(request, user)
             return redirect('chat:chat_main')  # 로그인 성공 시 이동할 페이지
         else:
-            print("로그인 실패")
             messages.error(request, '이메일과 비밀번호를 확인해주세요.')
     return redirect('uauth:main')
 
@@ -29,17 +27,12 @@ def login_view(request):
 def signup(request):
     if request.method == 'POST':
         form = UserForm(request.POST, request.FILES)
-
         if form.is_valid():
-            print(form.cleaned_data['username'])
-            print(form.cleaned_data['email'])
             user = form.save()
-            messages.success(request, '회원가입 완료!')
-
+            messages.success(request, '')
             return redirect('uauth:main')
     else:
         form = UserForm()
-    
     return render(request, 'uauth/signup.html', {'form':form}) 
 
 # 이메일 인증코드 전송
@@ -83,7 +76,6 @@ def verify_code(request):
     # 5분 유효기간 체크
     if now > session_time + timedelta(minutes=5):
         return JsonResponse({'result': 'timeout'})
-
     if email == session_email and user_code == session_code:
         return JsonResponse({'result': 'success'})
     else:
@@ -93,10 +85,6 @@ def check_email(request):
     email = request.GET.get('email')
     exists = User.objects.filter(username=email).exists()
     return JsonResponse({'exists':exists})  
-
-# 회원가입 완료 페이지
-def signup_success(request):
-    return render(request, 'uauth/signup_success.html')
 
 def findpw(request):
     return render(request, 'uauth/findpw.html')
