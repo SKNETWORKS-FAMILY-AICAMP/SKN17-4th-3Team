@@ -72,13 +72,14 @@ button.wan {
 }
 
 .style1 {
-  position: absolute;
+  position: fixed;
   bottom: 24px;
   left: 0;
-  width: calc(100% - 300px); /* ✅ 사이드바 제외한 영역 */
+  width: calc(100% - 300px); 
   display: flex;
-  justify-content: center; /* 가운데 정렬 */
+  justify-content: center; 
   align-items: center;
+  background-color:#fff;
 }
 
 /* ===== 글자 수 카운터 ===== */
@@ -111,8 +112,8 @@ button.wan {
 
 /* 전체 채팅창 */
 .chat-container {
-  width: calc(100% - 300px); /* ✅ 사이드바 제외한 영역 */
-  height: 75vh;
+width: calc(100% - 300px); /* ✅ 사이드바 제외한 영역 */
+height:75vh;
   margin: 40px auto;
   padding: 20px;
   background-color: #fff;
@@ -121,6 +122,7 @@ button.wan {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  scroll-behavior:smooth;
 }
 
 /* 챗봇 말풍선 */
@@ -157,7 +159,7 @@ button.wan {
   position: fixed;
   top: 0;
   right: 0;
-  width: 300px; /* 🔹 약간 넓혀서 여유 공간 확보 */
+  width: 300px; 
   height: 100vh;
   background: linear-gradient(to bottom, #e8f8e2 0%, #f9fff7 100%);
   border-left: none;
@@ -168,11 +170,25 @@ button.wan {
   box-sizing: border-box;
 }
 
+.delete-account-btn {
+    display: block;
+    width: 90%;
+    margin: 15px auto;
+    padding: 10px 0;
+    text-align: center;
+    color:#333;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
 .sidebar .top-actions {
   display: grid; 
   grid-template-columns: 1fr 1fr; 
   gap: 8px;
 }
+
 .btn {
   height: 36px; padding: 0 12px;
   border-radius: 10px;
