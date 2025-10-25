@@ -7,19 +7,25 @@ from django.contrib.auth.models import User
 import random
 from django.core.mail import send_mail
 from datetime import datetime, timedelta
+from chat.models import Chat
 
 def main(request):
     return render(request, 'uauth/main.html')
 
 def login_view(request):
     if request.method == 'POST':
-        email = request.POST.get('email') 
+        
+        email = request.POST.get('email')
         password = request.POST.get('password')
         user = authenticate(request, username=email, password=password)
+
         if user is not None:
             print("로그인 성공:", user)
+            print(user.id)
             auth_login(request, user)
-            return render(request,'chat/chat.html')  # 로그인 성공 시 이동할 페이지
+            print('test1')
+            # chat, _ = Chat.objects.get_or_create(user=user)
+            return redirect('chat:chat_main')  # 로그인 성공 시 이동할 페이지
         else:
             print("로그인 실패")
             messages.error(request, '이메일과 비밀번호를 확인해주세요.')
@@ -40,12 +46,7 @@ def signup(request):
     else:
         form = UserForm()
     
-    context = {
-        'form': form,
-        'is_signup_page': True 
-    }
-    
-    return render(request, 'uauth/signup.html', context) 
+    return render(request, 'uauth/signup.html', {'form':form}) 
 
 # 이메일 인증코드 전송
 def send_verification_code(request):

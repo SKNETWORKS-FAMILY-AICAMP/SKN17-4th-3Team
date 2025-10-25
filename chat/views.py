@@ -3,6 +3,8 @@ from chat.models import Chat, Chat_log
 from uauth.models import User
 from django.contrib.auth import logout
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
 
 def logout_view(request):
     logout(request)  # 현재 로그인된 사용자 세션을 종료
@@ -12,9 +14,11 @@ def logout_view(request):
 def withdraw_view(request):
     return render(request, 'chat/withdraw.html')
 
+@login_required
 def chat_main(request):
-    user_id_get = 1
-    chat_id_get = 2
+    user_id_get = request.user.id
+    chat_id_get = Chat.objects.filter(user_id=user_id_get).order_by("created_at")[0].id
+    print(user_id_get, chat_id_get)
     chat = Chat_log.objects.filter(user_id=user_id_get, chat_id=chat_id_get).order_by('created_at').values('question', 'answer')
     region = Chat.objects.get(id=chat_id_get)
     print(region.area)

@@ -72,13 +72,14 @@ button.wan {
 }
 
 .style1 {
-  position: absolute;
+  position: fixed;
   bottom: 24px;
   left: 0;
-  width: calc(100% - 300px); /* ✅ 사이드바 제외한 영역 */
+  width: calc(100% - 300px); 
   display: flex;
-  justify-content: center; /* 가운데 정렬 */
+  justify-content: center; 
   align-items: center;
+  background-color:#fff;
 }
 
 /* ===== 글자 수 카운터 ===== */
@@ -111,8 +112,8 @@ button.wan {
 
 /* 전체 채팅창 */
 .chat-container {
-  width: calc(100% - 300px); /* ✅ 사이드바 제외한 영역 */
-  height: 75vh;
+width: calc(100% - 300px); /* ✅ 사이드바 제외한 영역 */
+height:75vh;
   margin: 40px auto;
   padding: 20px;
   background-color: #fff;
@@ -121,6 +122,7 @@ button.wan {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  scroll-behavior:smooth;
 }
 
 /* 챗봇 말풍선 */
