@@ -49,10 +49,10 @@ def send_verification_code(request):
     request.session['verification_time'] = now.strftime('%Y-%m-%d %H:%M:%S')
 
     send_mail(
-        '안녕하세요. 떠나봄입니다.\n회원가입 인증코드 보내드립니다.',
-        f'인증코드 : {code}\n5분 이내에 인증코드를 정확히 입력해주세요.',
-        'pinokiojs@gmail.com',
-        [email],
+        subject='안녕하세요. 떠나봄입니다 - 회원가입 인증코드 안내',  # ✅ 제목에는 줄바꿈 금지!
+        message=f'안녕하세요. 떠나봄입니다.\n회원가입 인증코드는 {code} 입니다.\n5분 안에 입력해주세요 😊',
+        from_email='no-reply@ttonabom.com',
+        recipient_list=[email],
         fail_silently=False,
     )
 
