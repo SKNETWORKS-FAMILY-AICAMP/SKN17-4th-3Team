@@ -1,10 +1,16 @@
 {% extends 'layout/base.html' %}
 {% load static %}
-
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat Choice</title>
+  <link rel="stylesheet" href="{% static 'css/chat_style.css' %}">
+</head>
+<body>
 {% block style %}
 <link rel="stylesheet" href="{% static 'css/chat.css' %}">
 {% endblock style %}
-
 {% block content %}
 {% comment %} 채팅 나오는 창 구현 {% endcomment %}
 <div class="chat-container">
@@ -34,15 +40,15 @@
       <button type="submit" class="btn destructive">로그아웃</button>
     </form>
     <button type="button" class="btn primary">비밀번호 변경</button>
-    <button type='button' class="btn primary">새 채팅</button>
+    <button type='button' id="newChatBtn" class="btn primary" onclick="location.href='{% url 'chat:chat_choice' %}'">새 채팅</button>
     <button type='button' class="btn destructive">삭제</button>
   </div>
-  
-  <div class="chat-list">
     <div class="chat-item">
       <input type="checkbox">
       <div class="date">2025-10-10 대전</div>
     </div>
+  
+  <div class="chat-list">
     <div class="chat-item active">
       <input type="checkbox" checked>
       <div class="date">2025-10-08 서울(1)</div>
@@ -51,10 +57,6 @@
       <input type="checkbox">
       <div class="date">2025-10-08 서울</div>
     </div>
-  </div>
-
-  <a href="{% url 'chat:withdraw' %}" class="delete-account-btn">회원탈퇴</a>
-
 </aside>
 
 <div class="style1">
@@ -90,6 +92,9 @@
 
 </script>
 
-
-
 {% endblock content %}
+</script>
+  {% include 'chat/chat_choice.html' %}
+  <script src="{% static 'js/regionchoice.js' %}"></script>
+</body>
+</html>

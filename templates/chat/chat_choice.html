@@ -1,0 +1,77 @@
+{% load static %}
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat Choice</title>
+  <link rel="stylesheet" href="{% static 'css/chat_style.css' %}">
+</head>
+<body>
+  <div id='modal-content'>
+    <div class="button-container">
+      <h3>어떤 지역으로의 여행을 생각 중이신가요?<br>아래 선택지에서 골라주세요!</h3>
+      <div id="regionGroup">
+        <button class="btn region-btn" data-region="서울">서울</button>
+        <button class="btn region-btn" data-region="부산">부산</button>
+        <button class="btn region-btn" data-region="대구">대구</button>
+        <button class="btn region-btn" data-region="인천">인천</button>
+        <button class="btn region-btn" data-region="광주">광주</button>
+        <button class="btn region-btn" data-region="대전">대전</button>
+        <button class="btn region-btn" data-region="울산">울산</button>
+        <button class="btn region-btn" data-region="세종">세종</button>
+        <button class="btn region-btn" data-region="경기">경기</button>
+        <button class="btn region-btn" data-region="강원">강원</button>
+        <button class="btn region-btn" data-region="충북">충북</button>
+        <button class="btn region-btn" data-region="충남">충남</button>
+        <button class="btn region-btn" data-region="경북">경북</button>
+        <button class="btn region-btn" data-region="경남">경남</button>
+        <button class="btn region-btn" data-region="전북">전북</button>
+        <button class="btn region-btn" data-region="전남">전남</button>
+        <button class="btn region-btn" data-region="제주">제주</button>
+        <button class="btn region-btn" data-region="전체">전체</button>
+      </div>
+      <br></br>
+      <button id="submitRegion" class="btn wan" disabled data-url="{% url 'chat:chat_choice' %}">완료</button>
+    </div>
+
+    <script>
+      // 버튼 활성화 기능
+      const group = document.getElementById('regionGroup');
+      const submitBtn = document.getElementById('submitRegion');
+
+      group.addEventListener('click', (e) => {
+        const btn = e.target.closest('.region-btn');
+        if (!btn) return;
+
+        // 모두 비활성화 후 현재만 활성화
+        group.querySelectorAll('.region-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // 완료 버튼 활성화
+        submitBtn.disabled = false;
+      });
+
+      // 완료 클릭: 지역 저장 + 채팅 페이지로 이동
+      submitBtn.addEventListener('click', () => {
+        const active = group.querySelector('.region-btn.active');
+        if (!active) return; // 안전장치
+        const region = active.dataset.region;
+
+        // 1) 세션스토리지에 저장(채팅 페이지에서 읽기 좋음)
+        sessionStorage.setItem('selectedRegion', region);
+
+        // 2) 쿼리스트링으로도 전달(서버/프론트 어디서든 활용)
+        const target = submitBtn.dataset.url; // 채팅 페이지 URL
+        const url = new URL(target, window.location.origin);
+        url.searchParams.set('region', region);
+
+        // 3) 페이지 이동
+        window.location.href = url.toString();
+      });
+
+      // (선택) 부모 모달을 사용 중이면 postMessage 로도 전달 가능
+      // window.parent?.postMessage({ type: 'regionSelected', value: region }, '*');
+  </script>
+  </div>
+</body>
+</html>
