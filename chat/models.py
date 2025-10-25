@@ -8,7 +8,7 @@ class Chat(models.Model):
 
 class Chat_log(models.Model):
     chat = models.ForeignKey(Chat, on_delete=models.SET_NULL, null=True, blank=True, related_name='chat_log_chat')
-    user = models.ForeignKey(Chat, on_delete=models.SET_NULL, null=True, blank=True, related_name='chat_log_user')
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='chat_log_user')
     question = models.CharField(max_length=500)
     answer = models.CharField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
