@@ -26,7 +26,7 @@ def chat_main(request):
     for c in chat:
         print(c['question'])
         print(c['answer'])
-    return render(request, 'chat/chat.html')
+    return render(request, 'chat/chat.html', {'chat': chat, 'region': region.area})
 
 @login_required
 def withdraw_view(request):
