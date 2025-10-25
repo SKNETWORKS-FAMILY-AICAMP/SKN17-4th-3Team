@@ -7,5 +7,12 @@ app_name = 'chat'
 urlpatterns = [
     path('',views.chat_main, name='chat_main'),
     path('withdraw/', views.withdraw_view, name='withdraw'),
+<<<<<<< Updated upstream
     path('logout/',views.logout, name='logout'),
+=======
+    path('logout/',views.logout_view, name='logout'),
+    path('chat_choice/', views.chat_choice, name='chat_choice'),
+    path('chat_list/', views.chat_list_view, name='chat_list'),
+    path('<int:chat_id>/', views.chat_main, name='chat_main_with_id'),
+>>>>>>> Stashed changes
 ]
