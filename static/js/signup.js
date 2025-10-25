@@ -194,32 +194,6 @@ document.getElementById('id_email').addEventListener('input', () => {
     }
 });
 
-// // 이메일 중복 확인
-// document.getElementById('check-email-btn').addEventListener('click', async () => {
-//     const email = document.getElementById('id_email').value;
-//     const msg = document.getElementById('email-message');
-
-//     if (!email){
-//         msg.style.color = 'red';
-//         msg.textContent = '이메일을 입력하세요.';
-//         isEmailChecked = false;
-//         return;
-//     }
-
-//     const response = await fetch(`/uauth/check_email/?email=${email}`);
-//     const data = await response.json();
-
-//     if(data.exists){
-//         msg.style.color = 'red';
-//         msg.textContent = '이미 가입되어있는 이메일입니다.';
-//         isEmailChecked = false;
-//     } else{
-//         msg.style.color = 'blue';
-//         msg.textContent = '가입할 수 있는 이메일입니다.';
-//         isEmailChecked = true;
-//     }
-// });
-
 //이메일 인증코드 관련 코드
 
 

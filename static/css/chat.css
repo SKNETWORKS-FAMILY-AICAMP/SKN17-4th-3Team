@@ -183,6 +183,13 @@ height:75vh;
     transition: background 0.2s;
 }
 
+.sidebar a {
+  position: absolute;
+  bottom: 10px;          
+  right: 20px;           
+  text-align: right;     
+}
+
 .sidebar .top-actions {
   display: grid; 
   grid-template-columns: 1fr 1fr; 
