@@ -19,7 +19,7 @@ def login_view(request):
         if user is not None:
             print("로그인 성공:", user)
             auth_login(request, user)
-            return render(request,'chat/chat.html')  # 로그인 성공 시 이동할 페이지
+            return redirect('chat:chat_main')  # 로그인 성공 시 이동할 페이지
         else:
             print("로그인 실패")
             messages.error(request, '이메일과 비밀번호를 확인해주세요.')
@@ -40,12 +40,7 @@ def signup(request):
     else:
         form = UserForm()
     
-    context = {
-        'form': form,
-        'is_signup_page': True 
-    }
-    
-    return render(request, 'uauth/signup.html', context) 
+    return render(request, 'uauth/signup.html', {'form':form}) 
 
 # 이메일 인증코드 전송
 def send_verification_code(request):
