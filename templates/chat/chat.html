@@ -5,34 +5,37 @@
 <head>
   <meta charset="UTF-8">
   <title>Chat Choice</title>
-  <link rel="stylesheet" href="{% static 'css/chat_style.css' %}">
+  <!-- <link rel="stylesheet" href="{% static 'css/chat_style.css' %}"> -->
 </head>
 <body>
 {% block style %}
-<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+  <link rel="stylesheet" href="{% static 'css/chat.css' %}">
 {% endblock style %}
+
 {% block content %}
 {% comment %} 채팅 나오는 창 구현 {% endcomment %}
 <div class="chat-container">
   <!-- 챗봇 메시지 -->
+  {% if chat %}
   <div class="bot-message">
       <div class="message-bubble bot">{{ chat.area }}에서 누구와 어떤 여행을 하고 싶은지 저에게 알려주세요!!</div>
   </div>
+  {% endif %}
 
   <!-- 사용자 메시지 -->
-   {% for c in chat_log %}
-    <div class="user-message">
-        <div class="message-bubble user">
-            {{ c.question }}
-        </div>
-    </div>
-
-    <div class="bot-message">
-        <div class="message-bubble bot">
-          {{ c.answer }}
+  {% for c in chat_log %}
+  <div class="user-message">
+      <div class="message-bubble user">
+          {{ c.question }}
       </div>
+  </div>
+
+  <div class="bot-message">
+      <div class="message-bubble bot">
+        {{ c.answer }}
     </div>
-    {% endfor %}
+  </div>
+  {% endfor %}
 </div>
 
 <aside class="sidebar">
@@ -42,27 +45,11 @@
       {% csrf_token %}
       <button type="submit" class="btn destructive">로그아웃</button>
     </form>
-    <button type="button" class="btn primary">비밀번호 변경</button>
-    <button type='button' id="newChatBtn" class="btn primary" onclick="location.href='{% url 'chat:chat_choice' %}'">새 채팅</button>
-    <button type='button' class="btn destructive">삭제</button>
+    <button type="button" class="btn primary" id="findPwBtn">비밀번호 변경</button>
+    <!-- <button type='button' id="newChatBtn" class="btn primary" onclick="location.href='{% url 'chat:chat_choice' %}'">새 채팅</button> -->
+    <button type='button' class="btn primary" id="newChatBtn">새 채팅</button>
+    <button type='button' class="btn destructive" id="deleteChatBtn">삭제</button>
   </div>
-  
-  {% comment %} 
-  <div class="chat-list">
-    <div class="chat-item">
-      <input type="checkbox">
-      <div class="date">2025-10-10 대전</div>
-    </div>
-    <div class="chat-item active">
-      <input type="checkbox" checked>
-      <div class="date">2025-10-08 서울(1)</div>
-    </div>
-    <div class="chat-item">
-      <input type="checkbox">
-      <div class="date">2025-10-08 서울</div>
-    </div>
-  </div> 
-  {% endcomment %}
 
   <div class="chat-list">
     {% for chat_item in chats %}
@@ -77,14 +64,30 @@
       </div>
     </div>
     {% empty %}
-    <div class="chat-item">
-      <div class="date">채팅 기록이 없습니다.</div>
-    </div>
+    <!-- <div class="chat-item"> -->
+      <br>
+      <div>
+        채팅 기록이 없습니다.
+      </div>
+    <!-- </div> -->
     {% endfor %}
   </div>
 
   <a href="{% url 'chat:withdraw' %}" class="delete-account-btn">회원탈퇴</a>
 </aside>
+
+<div class="modal fade" tabindex="-1" id="newChatModal">
+  {% include 'chat/chat_choice.html' %}
+</div>
+
+<div class="modal fade" tabindex="-1" id="deleteChatModal">
+  <div class="modal-content">
+    <div class="close">&times;</div>
+    <h1>삭제한다?</h1>
+    
+    <button id="deleteChat" class="btn destructive">ㅇㅋ 삭제ㄱ</button>
+  </div>
+</div>
 
 <div class="style1">
   <textarea id="message" sendbox="메시지를 입력하세요" onkeyup="lettercount(this)" maxlength="500"></textarea>
@@ -155,7 +158,7 @@
         chatContainer.scrollTop = chatContainer.scrollHeight;
 
         // csrftoken을 cookie에서 추출 후 fetch로 POST 요청 보내기
-        csrftoken = getCookie('csrftoken')
+        csrftoken = getCookie('csrftoken');
         const res = await fetch("{% url 'chat:save_message' %}", {
           method: "POST",
           headers: {
@@ -185,12 +188,113 @@
         // 자동 스크롤
         chatContainer.scrollTop = document.querySelector('.chat-container').scrollHeight;
     });
+</script>
+
+<!-- top-actions btn 조작 관련 -->
+<script>
+  const newChatBtn = document.getElementById('newChatBtn');
+  const newChatModal = document.getElementById('newChatModal');
+  const newChatClose = newChatModal.querySelector('.close');
+  const deleteChatBtn = document.getElementById('deleteChatBtn');
+  const deleteChatModal = document.getElementById('deleteChatModal');
+  const deleteChatClose = deleteChatModal.querySelector('.close');
+  const findPwBtn = document.getElementById('findPwBtn');
+
+  const group = document.getElementById('regionGroup');
+  const submitBtn = document.getElementById('submitRegion');
+  const deleteBtn = document.getElementById('deleteChat');  
+    
+  newChatBtn.addEventListener('click', () => {
+    newChatModal.style.display = 'flex';
+  });
+  
+  newChatClose.addEventListener('click', () => {
+    newChatModal.style.display = 'none';
+  });
+  
+  deleteChatBtn.addEventListener('click', () => {
+    const del_chats = document.querySelectorAll('input[name="selected_chat"]:checked');
+    if (del_chats.length === 0) {
+        alert('삭제할 채팅을 먼저 선택해주세요.');
+        return;
+    }  
+    deleteChatModal.style.display = 'flex';
+  });
+  
+  deleteChatClose.addEventListener('click', () => {
+    deleteChatModal.style.display = 'none';
+  });
+
+  group.addEventListener('click', (e) => {
+      const btn = e.target.closest('.region-btn');
+      if (!btn) return;
+
+      // 모두 비활성화 후 현재만 활성화
+      group.querySelectorAll('.region-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // 완료 버튼 활성화
+      submitBtn.disabled = false;
+  });
+
+  // 완료 클릭: 지역 저장 + 채팅 페이지로 이동
+  submitBtn.addEventListener('click', async () => {
+    const active = group.querySelector('.region-btn.active');
+    if (!active) return; // 안전장치
+    const region = active.dataset.region;
+  
+    // sessionStorage.setItem('selectedRegion', region);
+    // const target = submitBtn.dataset.url; // 채팅 페이지 URL
+    // const url = new URL(target, window.location.origin);
+    // url.searchParams.set('region', region);    
+    csrftoken = getCookie('csrftoken');
+    const res = await fetch("{% url 'chat:create_chat' %}", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrftoken,
+      },
+      body: JSON.stringify({
+        user_id: "{{ user_id }}",
+        region: region,
+      }),
+    });
+    
+    // 3) 페이지 이동
+    // window.location.href = url.toString;
+    window.location.href = window.location.pathname;
+  });
+
+  deleteBtn.addEventListener('click', async () => {
+    const del_chats = document.querySelectorAll('input[name="selected_chat"]:checked');
+
+    const del_chat_ids = [];
+    del_chats.forEach(checkbox => del_chat_ids.push(checkbox.value));
+
+    csrftoken = getCookie('csrftoken');
+    const res = await fetch("{% url 'chat:delete_chat' %}", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrftoken,
+      },
+      body: JSON.stringify({
+        user_id: "{{ user_id }}",
+        del_chat_ids: del_chat_ids,
+      }),
+    });
+    
+    // 3) 페이지 이동
+    // window.location.href = url.toString;
+    window.location.href = window.location.pathname;
+  });
+
+  findPwBtn.addEventListener('click', async () => {
+    window.location.href = "{% url 'uauth:findpw' %}"
+  });
 
 </script>
 
 {% endblock content %}
-</script>
-  {% include 'chat/chat_choice.html' %}
-  <script src="{% static 'js/regionchoice.js' %}"></script>
 </body>
 </html>

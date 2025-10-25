@@ -20,6 +20,7 @@ button.wan {
 
 .button-container {
   width: 500px;   /* 각 칸에 꽉 차도록 */
+  background: #fff;
   padding: 8px 0;
   font-size: 14px;
   border-radius: 6px;
@@ -27,6 +28,10 @@ button.wan {
   cursor: pointer;
   flex-wrap: flex;
   text-align: center;
+}
+
+.button-container .btn.active { 
+  background: #D2E0FB; color: #333; border-color: #D2E0FB ;
 }
 
 /* 모달 전체 화면 덮기 */
@@ -44,8 +49,8 @@ button.wan {
 /* 모달 박스 */
 .modal-content {
   background: #fff;
-  width: 80%;
-  height: 80%;
+  /* width: 80%;
+  height: 80%; */
   border-radius: 12px;
   position: relative;
   padding: 10px;
@@ -54,7 +59,7 @@ button.wan {
 }
 
 /* 닫기 버튼 */
-.modal .close {
+.close {
   position: absolute;
   right: 16px;
   top: 10px;
@@ -170,24 +175,24 @@ button.wan {
   box-sizing: border-box;
 }
 
-.delete-account-btn {
-    display: block;
-    width: 90%;
-    margin: 15px auto;
-    padding: 10px 0;
-    text-align: center;
-    color:#333;
-    border-radius: 8px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: background 0.2s;
-}
+/* .delete-account-btn {
+} */
 
-.sidebar a {
+.sidebar .delete-account-btn {
   position: absolute;
   bottom: 10px;          
   right: 20px;           
   text-align: right;     
+  display: block;
+  width: 90%;
+  margin: 15px auto;
+  padding: 10px 0;
+  text-align: center;
+  color:#333;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s;
 }
 
 .sidebar .top-actions {
