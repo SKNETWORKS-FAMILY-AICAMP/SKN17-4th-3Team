@@ -47,6 +47,6 @@ def withdraw_view(request):
         logout(request)
         return JsonResponse({'success': True, 'message': '회원 탈퇴가 완료되었습니다.'})
     
-
+@login_required
 def chat_choice(request):
     return render(request, 'chat/chat_choice.html')

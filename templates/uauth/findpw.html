@@ -7,48 +7,57 @@
   <link rel="stylesheet" href="{% static 'css/findpw.css' %}">
 </head>
 <body>
-
   <main class="findpw-container">
     <h2>비밀번호 찾기</h2>
-    <div class="form-box">
-      
-      <!-- 이메일 -->
-      <div class="form-row email-row">
-        <label for="email">이메일</label>
-        <div class="input-box">
-          <input type="email" id="email" placeholder="이메일 입력">
+    <form id='findpw-form' method="post" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+      <div class="form-box">
+        <!-- 이메일 -->
+        <div class="form-row email-row">
+          <label for="email">이메일</label>
+          <div class="input-box">
+            <input type="email" id="email" placeholder="이메일 입력">
+            <p id="email-message" class="guide-text">이메일을 입력하세요.</p>
+          </div>
+          <button class="small-btn" id="sendCodeBtn">인증코드 발급</button>
         </div>
-        <button class="small-btn" id="sendCodeBtn">인증코드 발급</button>
+        
       </div>
-
-      <!-- 인증코드 -->
-      <div class="form-row code-row">
-        <label for="code">인증코드 입력</label>
-        <div class="input-box">
-          <input type="text" id="code" placeholder="인증코드 입력">
+      <div class="form-box">
+        <!-- 인증코드 -->
+        <div class="form-row code-row">
+          <label for="code">인증코드 입력</label>
+          <div class="input-box">
+            <input type="text" id="code" placeholder="인증코드 입력">
+            <span id="verify-message" class="guide-text"></span>
+          </div>
+          <button class="small-btn" id="verifyBtn">인증확인</button>
+          <button class="small-btn" id="resendBtn">인증코드 재발송</button>
         </div>
-        <button class="small-btn" id="verifyBtn">인증 확인</button>
-        <button class="small-btn gray" id="resendBtn">인증코드 재전송</button>
+        
       </div>
-
-      <!-- 새 비밀번호 -->
-      <div class="form-row newpw-row">
-        <label for="newPw">새 비밀번호</label>
-        <div class="input-box">
-          <input type="password" id="newPw" placeholder="새 비밀번호 입력">
-        </div>
-      </div>
-
-      <!-- 새 비밀번호 확인 -->
-      <div class="form-row confirmpw-row">
-        <label for="confirmPw">새 비밀번호 확인</label>
-        <div class="input-box">
-          <input type="password" id="confirmPw" placeholder="비밀번호 재입력">
+      <div class="form-box">
+        <!-- 새 비밀번호 -->
+        <div class="form-row newpw-row">
+          <label for="newPw">새 비밀번호</label>
+          <div class="input-box">
+            <input type="password" id="newPw" placeholder="새 비밀번호 입력">
+            <span id="pw1-message" class="guide-text">4~15자 사이의 영어 대/소문자, 숫자를 사용하세요.</span>
+          </div>
         </div>
       </div>
-
+      <div class="form-box">
+        <!-- 새 비밀번호 확인 -->
+        <div class="form-row confirmpw-row">
+          <label for="confirmPw">새 비밀번호 확인</label>
+          <div class="input-box">
+            <input type="password" id="confirmPw" placeholder="비밀번호 재입력">
+            <span id="pw2-message" class="guide-text"></span>
+          </div>
+        </div>
+      </div>
+    </form>
       <button id="completeBtn">완료</button>
-    </div>
   </main>
 
   {% include 'chat/modal.html' with page_type='findpw' %}
