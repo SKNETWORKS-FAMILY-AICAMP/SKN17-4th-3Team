@@ -1,38 +1,53 @@
 {% extends 'layout/base.html' %}
 {% load static %}
-
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat Choice</title>
+  <link rel="stylesheet" href="{% static 'css/chat_style.css' %}">
+</head>
+<body>
 {% block style %}
 <link rel="stylesheet" href="{% static 'css/chat.css' %}">
 {% endblock style %}
-
 {% block content %}
 {% comment %} 채팅 나오는 창 구현 {% endcomment %}
 <div class="chat-container">
     <!-- 챗봇 메시지 -->
     <div class="bot-message">
-        <div class="message-bubble bot">대전에서 누구와 어떤 여행을 하고 싶은지 저에게 알려주세요!!</div>
+        <div class="message-bubble bot">{{ region }}에서 누구와 어떤 여행을 하고 싶은지 저에게 알려주세요!!</div>
     </div>
 
   <!-- 사용자 메시지 -->
+   {% for c in chat %}
     <div class="user-message">
         <div class="message-bubble user">
-            아이와 함께 활동적인 체험들을 하며 여행을 즐길만한 곳들을 추천해줘!
+            <!-- 아이와 함께 활동적인 체험들을 하며 여행을 즐길만한 곳들을 추천해줘! -->
+            {{ c.question }}
         </div>
     </div>
 
   <!-- 챗봇 답변 대기 -->
     <div class="bot-message">
-        <div class="message-bubble bot">답변 생성중...</div>
+        <div class="message-bubble bot">
+          <!-- 답변 생성중... -->
+          {{ c.answer }}
+      </div>
     </div>
+    {% endfor %}
 </div>
 
 <aside class="sidebar">
   <br></br>
   <div class="top-actions">
-    <button class="btn primary">비밀번호 변경</button>
-    <button class="btn destructive">로그아웃</button>
-    <button class="btn primary">새 채팅</button>
-    <button class="btn destructive">삭제</button>
+    <form action="{% url 'chat:logout' %}" method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn destructive">로그아웃</button>
+    </form>
+    <button type="button" class="btn primary">비밀번호 변경</button>
+    <button type='button' id="newChatBtn" class="btn primary" onclick="location.href='{% url 'chat:chat_choice' %}'">새 채팅</button>
+    <button type='button' class="btn destructive">삭제</button>
   </div>
   
   {% comment %} <div class="chat-list">
@@ -40,8 +55,6 @@
       <input type="checkbox">
       <div class="date">2025-10-10 대전</div>
     </div>
-  
-  <div class="chat-list">
     <div class="chat-item active">
       <input type="checkbox" checked>
       <div class="date">2025-10-08 서울(1)</div>
@@ -105,8 +118,11 @@
         document.querySelector('.chat-container').scrollTop = document.querySelector('.chat-container').scrollHeight;
     });
 
-
-
 </script>
 
 {% endblock content %}
+</script>
+  {% include 'chat/chat_choice.html' %}
+  <script src="{% static 'js/regionchoice.js' %}"></script>
+</body>
+</html>

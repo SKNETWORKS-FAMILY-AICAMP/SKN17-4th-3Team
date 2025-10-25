@@ -1,4 +1,23 @@
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.__pycache__/
+venv/
+.venv/
+env/
+ENV/
+venv.bak/
+.vscode/
 .env
+.env.*
+secrets.toml
+config.ini
+build/
+dist/
+*.egg-info/
+*.egg
+*.log
+*.sqlite3
+*.db
 
-test.*

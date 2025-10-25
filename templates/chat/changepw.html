@@ -1,0 +1,26 @@
+<form id="changePwForm" method="post">
+  {% csrf_token %}
+
+  <div class="form-group">
+    <label for="current_password">기존 비밀번호</label>
+    <!-- id는 JS용, name은 Django 폼명과 일치 -->
+    <input type="password" id="current_password" name="old_password" required>
+    <span id="current_password_error" class="error-message"></span>
+  </div>
+
+  <div class="form-group">
+    <label for="new_password">새 비밀번호</label>
+    <input type="password" id="new_password" name="new_password1" required>
+    <span id="new_password_message" class="info-message" style="color:black;">
+      4~15자 사이의 영어 대/소문자, 숫자를 사용하세요.
+    </span>
+  </div>
+
+  <div class="form-group">
+    <label for="confirm_password">새 비밀번호 확인</label>
+    <input type="password" id="confirm_password" name="new_password2" required>
+    <span id="confirm_password_message" class="info-message"></span>
+  </div>
+
+  <button type="submit" class="btn">변경</button>
+</form>
