@@ -159,7 +159,7 @@ height:75vh;
   position: fixed;
   top: 0;
   right: 0;
-  width: 300px; /* 🔹 약간 넓혀서 여유 공간 확보 */
+  width: 300px; 
   height: 100vh;
   background: linear-gradient(to bottom, #e8f8e2 0%, #f9fff7 100%);
   border-left: none;
@@ -170,11 +170,32 @@ height:75vh;
   box-sizing: border-box;
 }
 
+.delete-account-btn {
+    display: block;
+    width: 90%;
+    margin: 15px auto;
+    padding: 10px 0;
+    text-align: center;
+    color:#333;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.sidebar a {
+  position: absolute;
+  bottom: 10px;          
+  right: 20px;           
+  text-align: right;     
+}
+
 .sidebar .top-actions {
   display: grid; 
   grid-template-columns: 1fr 1fr; 
   gap: 8px;
 }
+
 .btn {
   height: 36px; padding: 0 12px;
   border-radius: 10px;
