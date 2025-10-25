@@ -20,16 +20,22 @@
     </div>
 
   <!-- 사용자 메시지 -->
+   {% for c in chat %}
     <div class="user-message">
         <div class="message-bubble user">
-            아이와 함께 활동적인 체험들을 하며 여행을 즐길만한 곳들을 추천해줘!
+            <!-- 아이와 함께 활동적인 체험들을 하며 여행을 즐길만한 곳들을 추천해줘! -->
+            {{ c.question }}
         </div>
     </div>
 
   <!-- 챗봇 답변 대기 -->
     <div class="bot-message">
-        <div class="message-bubble bot">답변 생성중...</div>
+        <div class="message-bubble bot">
+          <!-- 답변 생성중... -->
+          {{ c.answer }}
+      </div>
     </div>
+    {% endfor %}
 </div>
 
 <aside class="sidebar">
@@ -43,12 +49,12 @@
     <button type='button' id="newChatBtn" class="btn primary" onclick="location.href='{% url 'chat:chat_choice' %}'">새 채팅</button>
     <button type='button' class="btn destructive">삭제</button>
   </div>
+  
+  <div class="chat-list">
     <div class="chat-item">
       <input type="checkbox">
       <div class="date">2025-10-10 대전</div>
     </div>
-  
-  <div class="chat-list">
     <div class="chat-item active">
       <input type="checkbox" checked>
       <div class="date">2025-10-08 서울(1)</div>
@@ -57,6 +63,8 @@
       <input type="checkbox">
       <div class="date">2025-10-08 서울</div>
     </div>
+  </div>
+
   <a href="{% url 'chat:withdraw' %}" class="delete-account-btn">회원탈퇴</a>
 </aside>
 

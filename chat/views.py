@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from chat.models import Chat, Chat_log
 
 @login_required
 def logout_view(request):
@@ -13,6 +14,18 @@ def logout_view(request):
 
 @login_required
 def chat_main(request):
+    # 로그인한 유저 ID
+    user_id_get = request.user.id
+    # 불러올 가장 최신 Chat 
+    chat_id_get = Chat.objects.filter(user_id=user_id_get).order_by("created_at")[0].id
+    print(user_id_get, chat_id_get)
+    # Chat_log의 question, answer 불러오기. Chat의 region 불러오기
+    chat = Chat_log.objects.filter(user_id=user_id_get, chat_id=chat_id_get).order_by('created_at').values('question', 'answer')
+    region = Chat.objects.get(id=chat_id_get)
+    print(region.area)
+    for c in chat:
+        print(c['question'])
+        print(c['answer'])
     return render(request, 'chat/chat.html')
 
 @login_required
