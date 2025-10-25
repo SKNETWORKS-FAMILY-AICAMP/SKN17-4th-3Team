@@ -14,24 +14,21 @@
 {% block content %}
 {% comment %} 채팅 나오는 창 구현 {% endcomment %}
 <div class="chat-container">
-    <!-- 챗봇 메시지 -->
-    <div class="bot-message">
-        <div class="message-bubble bot">{{ region }}에서 누구와 어떤 여행을 하고 싶은지 저에게 알려주세요!!</div>
-    </div>
+  <!-- 챗봇 메시지 -->
+  <div class="bot-message">
+      <div class="message-bubble bot">{{ chat.area }}에서 누구와 어떤 여행을 하고 싶은지 저에게 알려주세요!!</div>
+  </div>
 
   <!-- 사용자 메시지 -->
-   {% for c in chat %}
+   {% for c in chat_log %}
     <div class="user-message">
         <div class="message-bubble user">
-            <!-- 아이와 함께 활동적인 체험들을 하며 여행을 즐길만한 곳들을 추천해줘! -->
             {{ c.question }}
         </div>
     </div>
 
-  <!-- 챗봇 답변 대기 -->
     <div class="bot-message">
         <div class="message-bubble bot">
-          <!-- 답변 생성중... -->
           {{ c.answer }}
       </div>
     </div>
@@ -80,23 +77,92 @@
         const len = e.value.length;
         document.getElementById("counter").textContent = `(${len}/${max})`;
     }
-    document.querySelector('.send').addEventListener('click', () => {
+
+    function getCookie(name) {
+      if(document.cookie && document.cookie !== '') {
+        // console.log(document.cookie);
+        const cookies = document.cookie.split(';');
+        // console.log('쿠키 길이:', cookies.length)
+
+        for(let i=0;i<cookies.length;i++) {
+          const cookie = cookies[i].trim();
+          // console.log('쿠키 정보', i+1, cookie)
+
+          if (cookie.substring(0, name.length) === name) {
+            // console.log('쿠키:', cookie.substring(name.length + 1))
+            return decodeURIComponent(cookie.substring(name.length + 1));
+          }
+        }
+      }
+
+      return null;
+    }
+
+    document.querySelector('.send').addEventListener('click', async () => {
         const textarea = document.getElementById('message');
+        const sendBtn = document.querySelector('.send');
+        const chatContainer = document.querySelector('.chat-container');
         const text = textarea.value.trim();
         if (text === '') return;
+
+        // 전송 이후로 disable 시킴
+        textarea.disabled = true;
+        sendBtn.disabled = true;
 
         // 사용자 메시지 추가
         const userMsg = document.createElement('div');
         userMsg.classList.add('user-message');
-        userMsg.innerHTML = `<div class="message-bubble user">${text}</div>`;
-        document.querySelector('.chat-container').appendChild(userMsg);
+        const userMsgBubble = document.createElement('div');
+        userMsgBubble.classList.add('message-bubble', 'user');
+        userMsgBubble.textContent = text;
+        userMsg.appendChild(userMsgBubble);
+        chatContainer.appendChild(userMsg);
+        
+        // 응답 중 메시지 추가
+        const botMsg = document.createElement('div');
+        botMsg.classList.add('bot-message');
+        const botMsgBubble = document.createElement('div');
+        botMsgBubble.classList.add('message-bubble', 'bot')
+        botMsgBubble.textContent = '응답 생성중...';
+        botMsg.appendChild(botMsgBubble);
+        chatContainer.appendChild(botMsg);
 
         // 입력창 초기화
         textarea.value = '';
         document.getElementById("counter").textContent = "(0/500)";
+        
+        chatContainer.scrollTop = chatContainer.scrollHeight;
 
+        // csrftoken을 cookie에서 추출 후 fetch로 POST 요청 보내기
+        csrftoken = getCookie('csrftoken')
+        const res = await fetch("{% url 'chat:save_message' %}", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrftoken,
+          },
+          body: JSON.stringify({
+            user_id: "{{ chat.user_id }}",
+            chat_id: "{{ chat.id }}",
+            question: text,
+          }),
+        });
+        
+        const data = await res.json();
+        console.log(data);
+
+        if(data.status === 'ok') {
+          botMsgBubble.textContent = data.answer;
+        }
+        else {
+          botMsgBubble.textContent = '오류 발생';
+        }
+
+        textarea.disabled = false;
+        sendBtn.disabled = false;
+        
         // 자동 스크롤
-        document.querySelector('.chat-container').scrollTop = document.querySelector('.chat-container').scrollHeight;
+        chatContainer.scrollTop = document.querySelector('.chat-container').scrollHeight;
     });
 
 </script>

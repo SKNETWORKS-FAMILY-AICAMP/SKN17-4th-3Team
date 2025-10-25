@@ -5,6 +5,8 @@ from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from chat.models import Chat, Chat_log
+from django.views.decorators.csrf import csrf_exempt
+import json, time
 
 @login_required
 def logout_view(request):
@@ -20,13 +22,13 @@ def chat_main(request):
     chat_id_get = Chat.objects.filter(user_id=user_id_get).order_by("created_at")[0].id
     print(user_id_get, chat_id_get)
     # Chat_log의 question, answer 불러오기. Chat의 region 불러오기
-    chat = Chat_log.objects.filter(user_id=user_id_get, chat_id=chat_id_get).order_by('created_at').values('question', 'answer')
-    region = Chat.objects.get(id=chat_id_get)
-    print(region.area)
-    for c in chat:
+    chat = Chat.objects.get(id=chat_id_get)
+    chat_log = Chat_log.objects.filter(user_id=user_id_get, chat_id=chat_id_get).order_by('created_at').values()
+    print(chat.area)
+    for c in chat_log:
         print(c['question'])
         print(c['answer'])
-    return render(request, 'chat/chat.html', {'chat': chat, 'region': region.area})
+    return render(request, 'chat/chat.html', {'chat': chat, 'chat_log': chat_log})
 
 @login_required
 def withdraw_view(request):
@@ -50,3 +52,29 @@ def withdraw_view(request):
 
 def chat_choice(request):
     return render(request, 'chat/chat_choice.html')
+
+def save_message(request):
+    # fetch로 요청 받으면 해당 응답 DB에 저장
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        user_id = data.get('user_id')
+        chat_id = data.get('chat_id')
+        question = data.get('question')
+        
+        time.sleep(5)
+        answer = f"{question}에 대한 응답 생성"
+        print(user_id, chat_id, question, answer)
+        
+        # chat_log = Chat_log.objects.create(
+        #     user_id=user_id,
+        #     chat_id=chat_id,
+        #     question=question,
+        #     answer=answer
+        # )
+        print('응답 생성 완료')
+        
+        # return JsonResponse({"status": "ok", "id": chat_log.id, "chat_log": chat_log})
+        return JsonResponse({"status": "ok", "id": user_id, "answer": answer})
+    
+    return JsonResponse({'status': 'error', 'message': "Invalid Request"}, status=400)
+    
