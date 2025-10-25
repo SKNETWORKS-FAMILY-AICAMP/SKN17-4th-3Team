@@ -23,6 +23,20 @@
                 <span id="email-message" class="guide-text">이메일을 입력하세요.</span>
             </div>
         </div>
+
+        {% comment %} 이메일 인증코드 입력칸 {% endcomment %}
+        <div class="form-group" id="verify-section" style="display:none;">
+        <label for="verification_code">인증코드 입력</label>
+            <div class="input-content-group">
+                <div class="input-row">
+                    <input type="text" id="verification_code" name="verification_code" placeholder="인증코드 6자리 입력" class="form-control small-input">
+                    <span id="timer" class="guide-text"></span>
+                    <button type="button" id="verify-code-btn" class="small-btn">인증 확인</button>
+                </div>
+            <span id="verify-message" class="guide-text"></span>
+            
+            </div>
+        </div>
         <div class="form-group">
             <label for="id_password1">비밀번호 입력</label>
             <div class="input-content-group">
