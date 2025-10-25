@@ -1,7 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import logout
+from django.contrib import messages
+from django.contrib.auth import authenticate, logout
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from chat.models import Chat, Chat_log
 
-<<<<<<< Updated upstream
-=======
 @login_required
 def logout_view(request):
     logout(request)  # 현재 로그인된 사용자 세션을 종료
@@ -35,17 +39,15 @@ def chat_main(request, chat_id=None):
             'active_chat_id':chat_id_get,})
 
 @login_required
->>>>>>> Stashed changes
 def withdraw_view(request):
-    return render(request, 'chat/withdraw.html')
+    if request.method == 'GET':
+        return render(request, 'chat/withdraw.html')
 
-def chat_main(request):
-    return render(request, 'chat/chat.html')
+    if request.method == 'POST':
+        password = request.POST.get('password')
+        user = request.user
+        print(password, user)
 
-<<<<<<< Updated upstream
-def logout(request):
-    return render(request, 'chat/logout.html')
-=======
         # 비밀번호 확인
         if not user.check_password(password):
             return JsonResponse({'success': False, 'message': '일치하지 않는 비밀번호입니다.'})
@@ -55,11 +57,10 @@ def logout(request):
         logout(request)
         return JsonResponse({'success': True, 'message': '회원 탈퇴가 완료되었습니다.'})
     
-@login_required
+
 def chat_choice(request):
     return render(request, 'chat/chat_choice.html')
 
 def chat_list_view(request):
     chats = Chat.objects.filter(user=request.user).order_by('-created_at')
     return render(request, 'chat/chat.html', {'chats':chats})
->>>>>>> Stashed changes
