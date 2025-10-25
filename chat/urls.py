@@ -9,6 +9,7 @@ urlpatterns = [
     path('withdraw/', views.withdraw_view, name='withdraw'),
     path('logout/',views.logout_view, name='logout'),
     path('chat_choice/', views.chat_choice, name='chat_choice'),
+    path('save_message/', views.save_message, name='save_message'),
     path('chat_list/', views.chat_list_view, name='chat_list'),
     path('<int:chat_id>/', views.chat_main, name='chat_main_with_id'),
 ]

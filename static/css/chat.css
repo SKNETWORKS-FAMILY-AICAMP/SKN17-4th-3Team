@@ -112,11 +112,11 @@ button.wan {
 
 /* 전체 채팅창 */
 .chat-container {
-width: calc(100% - 300px); /* ✅ 사이드바 제외한 영역 */
-height:75vh;
+  width: calc(100% - 300px); /* ✅ 사이드바 제외한 영역 */
+  height:50vh;
   margin: 40px auto;
   padding: 20px;
-  background-color: #fff;
+  background-color: #d4dd;
   border-radius: 20px;
   overflow-y: auto;
   display: flex;
