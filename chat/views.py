@@ -23,22 +23,13 @@ def chat_main(request, chat_id=None):
     else:
         chat_id_get = Chat.objects.filter(user_id=user_id_get).order_by("created_at")[0].id
     print(user_id_get, chat_id_get)
-    # Chat_log의 question, answer 불러오기. Chat의 region 불러오기
     
-    <<<<<<
-    # chat = Chat.objects.get(id=chat_id_get)
-    # chat_log = Chat_log.objects.filter(user_id=user_id_get, chat_id=chat_id_get).order_by('created_at').values()
-    print(chat.area)
-    for c in chat_log:
-        print(c['question'])
-        print(c['answer'])
-    return render(request, 'chat/chat.html', {'chat': chat, 'chat_log': chat_log})
-  -------------------------------------
+    # 해당 user id의 chat, chats, chat_log 불러오기
     chat = Chat.objects.get(id=chat_id_get)
     chat_log = Chat_log.objects.filter(chat_id=chat_id_get).order_by('created_at').values()
-    print(region.area)
+    print(chat.area)
     chats = Chat.objects.filter(user_id=user_id_get).order_by('-created_at')
-    for c in chat:
+    for c in chat_log:
         print(c['question'])
         print(c['answer'])
     return render(
@@ -46,9 +37,10 @@ def chat_main(request, chat_id=None):
         'chat/chat.html', 
         {
             'chat': chat, 
-            'region': region.area, 
             'chats':chats,
-            'active_chat_id':chat_id_get,})
+            'chat_log': chat_log, 
+            'active_chat_id':chat_id_get,
+        })
 
 
 
@@ -87,6 +79,7 @@ def save_message(request):
         answer = f"{question}에 대한 응답 생성"
         print(user_id, chat_id, question, answer)
         
+        # DB에 넣는건 일단 주석처리 해놨습니다
         # chat_log = Chat_log.objects.create(
         #     user_id=user_id,
         #     chat_id=chat_id,
@@ -94,8 +87,9 @@ def save_message(request):
         #     answer=answer
         # )
         print('응답 생성 완료')
-        
-        # return JsonResponse({"status": "ok", "id": chat_log.id, "chat_log": chat_log})
+
+        # 마찬가지로 여기도 주석처리 했습니다
+        # return JsonResponse({"status": "ok", "id": chat_log.id, "answer": answer})
         return JsonResponse({"status": "ok", "id": user_id, "answer": answer})
     
     return JsonResponse({'status': 'error', 'message': "Invalid Request"}, status=400)
