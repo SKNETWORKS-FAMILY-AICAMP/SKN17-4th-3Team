@@ -47,8 +47,8 @@ button.wan {
 /* 모달 박스 */
 .modal-content {
   background: #fff;
-  width: 80%;
-  height: 80%;
+  /* width: 80%;
+  height: 80%; */
   border-radius: 12px;
   position: relative;
   padding: 10px;
