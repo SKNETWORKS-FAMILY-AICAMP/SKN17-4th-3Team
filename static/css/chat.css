@@ -5,6 +5,7 @@ button {
     font-size:14px;
     margin-right: 8px;
     border: 1px solid #333;
+    margin-top:3px;
     width:125px;
     background-color: #fff;  /* 기본 배경 */
     color: #333;             /* 기본 글자색 */
@@ -16,11 +17,12 @@ button.wan {
     color: #333;              
     font-weight: 600;
     cursor: pointer;
+    width: 70px;
 }
 
 .button-container {
   width: 500px;   /* 각 칸에 꽉 차도록 */
-  background: #fff;
+  background-color: #fffef8;
   padding: 8px 0;
   font-size: 14px;
   border-radius: 6px;
@@ -28,6 +30,7 @@ button.wan {
   cursor: pointer;
   flex-wrap: flex;
   text-align: center;
+  position: relative;
 }
 
 .button-container .btn.active { 
@@ -48,9 +51,7 @@ button.wan {
 
 /* 모달 박스 */
 .modal-content {
-  background: #fff;
-  /* width: 80%;
-  height: 80%; */
+  background-color: #fffef8;
   border-radius: 12px;
   position: relative;
   padding: 10px;
@@ -61,11 +62,13 @@ button.wan {
 /* 닫기 버튼 */
 .close {
   position: absolute;
-  right: 16px;
   top: 10px;
-  font-size: 24px;
+  right: 14px;
+  font-size: 26px;
   font-weight: bold;
+  color: #333;
   cursor: pointer;
+  z-index: 10;
 }
 
 /* iframe을 꽉 채우기 */
@@ -114,20 +117,25 @@ button.wan {
   font-family: 'Roboto', sans-serif;
 }
 
-
-/* 전체 채팅창 */
 .chat-container {
-  width: calc(100% - 300px); /* ✅ 사이드바 제외한 영역 */
-  height:50vh;
-  margin: 40px auto;
-  padding: 20px;
-  background-color: #d4dd;
+  position: absolute;
+  top: 150px;
+  left: 150px; 
+  right: 450px; 
+  width: auto; 
+  height: 65vh;
+  max-width: none;
+  margin: 0 auto;
+  padding: 20px 30px;
+  background-color: #fff;
   border-radius: 20px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 15px;
-  scroll-behavior:smooth;
+  scroll-behavior: smooth;
+  border: 1px solid rgba(190, 230, 190, 0.8);
+  box-shadow: 0 4px 10px rgba(180, 220, 180, 0.3);
 }
 
 /* 챗봇 말풍선 */
@@ -135,6 +143,7 @@ button.wan {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin-left:30px;
   
 }
 
@@ -148,10 +157,11 @@ button.wan {
 /* 사용자 말풍선 */
 .user-message {
   display: flex;
-  justify-content: flex-end; /* 🔹 오른쪽 정렬 */
-  margin-right: 320px; /* 🔹 사이드바(300px) + 여백(20px) */
+  justify-content: flex-end;
+  margin-right: 30px; 
   margin-top: 12px;
 }
+
 .message-bubble.user {
   background-color: #FFF8D6;
   padding: 10px 15px;
@@ -175,8 +185,6 @@ button.wan {
   box-sizing: border-box;
 }
 
-/* .delete-account-btn {
-} */
 
 .sidebar .delete-account-btn {
   position: absolute;
@@ -238,4 +246,88 @@ button.wan {
   border-radius: 12px;
   background: #D2E0FB; color: #333;
   font-weight: 700; border: none; cursor: pointer;
+}
+
+/* 모달 */
+.deleteChatModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 50px;
+  height: 50px;
+  background: rgba(0, 0, 0, 0.1); /* 투명도를 낮춤 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* 모달 숨기기 */
+.hidden {
+  display: none;
+}
+/* ✅ deleteChatBtn이 있는 모달만 작게 */
+.deleteChatModal .modal-content {
+  width: 300px;     /* 원하는 크기로 줄이기 */
+  height: 100px;     /* 내용에 맞게 높이 조절 */
+  padding: 20px 25px;
+  border-radius: 10px;
+}
+
+.modal-content button {
+  background-color: #fff9cf;
+  border: 1px solid #333;
+  border-radius: 6px;
+  font-size: 14px;
+  color:#333;
+  padding: 5px 20px;
+  cursor: pointer;
+}
+.modal-content button:hover {
+  background-color: #fdf4b8;
+}
+
+.modal-content {
+  background-color: #fffef8;
+  padding: 30px 50px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  text-align: center;
+}
+/* ✅ deleteChatBtn 있는 모달만 작게 */
+.modal.delete-chat-modal .modal-content {
+  width: 280px !important;
+  height: auto !important;
+  padding: 24px 30px !important;
+  border-radius: 12px;
+  background: #fffef8;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+  text-align: center;
+}
+
+/* 텍스트 */
+.modal.delete-chat-modal .modal-content h5,
+.modal.delete-chat-modal .modal-content h2 {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  margin-bottom: 16px !important;
+}
+
+/* 버튼 중앙 정렬 */
+.modal.delete-chat-modal .modal-content button {
+  margin: 8px 6px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background-color: #FF8585;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.2s ease;
+}
+
+/* 버튼 묶음 flex 정렬 */
+.modal.delete-chat-modal .modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
 }

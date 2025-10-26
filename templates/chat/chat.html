@@ -46,7 +46,6 @@
       <button type="submit" class="btn destructive">로그아웃</button>
     </form>
     <button type="button" class="btn primary" id="findPwBtn">비밀번호 변경</button>
-    <!-- <button type='button' id="newChatBtn" class="btn primary" onclick="location.href='{% url 'chat:chat_choice' %}'">새 채팅</button> -->
     <button type='button' class="btn primary" id="newChatBtn">새 채팅</button>
     <button type='button' class="btn destructive" id="deleteChatBtn">삭제</button>
   </div>
@@ -79,13 +78,14 @@
 <div class="modal fade" tabindex="-1" id="newChatModal">
   {% include 'chat/chat_choice.html' %}
 </div>
-
-<div class="modal fade" tabindex="-1" id="deleteChatModal">
-  <div class="modal-content">
+<div class="modal fade delete-chat-modal" tabindex="-1" id="deleteChatModal">
+  <div class="modal-content small-modal">
     <div class="close">&times;</div>
-    <h1>삭제한다?</h1>
-    
-    <button id="deleteChat" class="btn destructive">ㅇㅋ 삭제ㄱ</button>
+    <h5>선택한 채팅을 삭제하시겠습니까?</h5>
+
+    <div class="delete-buttons">
+      <button id="deleteChat" class="deleteChat">확인</button>
+    </div>
   </div>
 </div>
 
