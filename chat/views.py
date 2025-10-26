@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from chat.models import Chat, Chat_log
 from django.views.decorators.csrf import csrf_exempt
 import json, time
+import re
 
 @login_required
 def logout_view(request):
@@ -31,6 +32,10 @@ def chat_main(request, chat_id=None):
     # 해당 user id의 chat, chats, chat_log 불러오기
     try:
         chat = Chat.objects.get(id=chat_id_get)
+        if chat and chat.area:
+            chat.area_clean = re.sub(r"\s*\(\d+\)\s*$", "", str(chat.area))
+        else:
+            chat.area_clean = chat.area or ""
     except:
         chat = None
 
@@ -71,6 +76,7 @@ def withdraw_view(request):
         logout(request)
         return JsonResponse({'success': True, 'message': '회원 탈퇴가 완료되었습니다.'})
     
+@login_required
 def chat_choice(request):
     area = '전주'
     user_id = 3
@@ -80,6 +86,7 @@ def chat_choice(request):
     )
     return render(request, 'chat/chat_choice.html')
 
+@login_required
 def save_message(request):
     # fetch로 요청 받으면 해당 응답 DB에 저장
     if request.method == 'POST':
@@ -106,8 +113,8 @@ def save_message(request):
         # return JsonResponse({"status": "ok", "id": user_id, "answer": answer})
     
     return JsonResponse({'status': 'error', 'message': "Invalid Request"}, status=400)
-    
 
+@login_required
 def create_chat(request):
     # fetch로 요청 받으면 해당 응답 DB에 저장
     if request.method == 'POST':
@@ -117,19 +124,31 @@ def create_chat(request):
         
         print('in create chat')
         print(user_id, region)
+
+        # ✅ 같은 이름이 이미 존재하면 (1), (2), ... 붙이기
+        base_name = region
+        name = base_name
+        counter = 1
+
+        while Chat.objects.filter(user_id=user_id, area=name).exists():
+            name = f"{base_name} ({counter})"
+            counter += 1
         
-        # DB에 넣는건 일단 주석처리 해놨습니다
+        # ✅ 최종 이름으로 채팅 생성
         chat = Chat.objects.create(
             user_id=user_id,
-            area=region,
+            area=name,
         )
 
-        # 마찬가지로 여기도 주석처리 했습니다
-        return JsonResponse({"status": "ok", "id": chat.id, "region": region})
-        # return JsonResponse({"status": "ok", "id": user_id, "region": region})
+        return JsonResponse({
+            "status": "ok",
+            "id": chat.id,
+            "region": chat.area  # 실제 저장된 이름 반환
+        })
     
     return JsonResponse({'status': 'error', 'message': "Invalid Request"}, status=400)
-    
+
+@login_required
 def delete_chat(request):
     # fetch로 요청 받으면 해당 챗 DB에서 삭제
     if request.method == 'DELETE':
@@ -148,7 +167,8 @@ def delete_chat(request):
         return render(request, 'chat/chat.html')
     
     return JsonResponse({'status': 'error', 'message': "Invalid Request"}, status=400)
-    
+
+@login_required
 def chat_list_view(request):
     chats = Chat.objects.filter(user=request.user).order_by('-created_at')
     return render(request, 'chat/chat.html', {'chats':chats})
