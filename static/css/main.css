@@ -72,15 +72,11 @@ button {
     margin-right: 8px;
     border: 1px solid #333;
     width:125px;
-    background-color: #fff;  /* 기본 배경 */
-    color: #333;             /* 기본 글자색 */
+    background-color: #fff; 
+    color: #333;         
+    cursor:pointer;  
 }
 
-/* .feedback {
-    color: red;
-    margin-top: 10px;
-    text-align:center;
-} */
 
 .button-box {
     text-align: center; /* 버튼과 피드백 모두 중앙 정렬 */

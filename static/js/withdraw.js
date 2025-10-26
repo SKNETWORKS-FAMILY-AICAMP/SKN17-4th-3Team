@@ -29,11 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (data.success) {
             errorMsg.textContent = "";
             modal.classList.remove("hidden");
-
-            // 일정 시간 후 홈으로 이동
-            setTimeout(() => {
-                window.location.href = "/";
-            }, 2000);
         } else {
             errorMsg.textContent = data.message;
         }

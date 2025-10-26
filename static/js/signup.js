@@ -8,6 +8,7 @@ const verifyInput = document.getElementById('verification_code');
 const verifyBtn = document.getElementById('verify-code-btn');
 const resendBtn = document.getElementById('resend-code-btn');
 const verifyMsg = document.getElementById('verify-message');
+const signupBtn = document.getElementById('signup-btn');
 
 let isEmailChecked = false;
 let isEmailVerified = false;
@@ -21,6 +22,7 @@ function disableVerificationArea() {
     resendBtn.style.backgroundColor = "#E7E7E7";
     sendCodeBtn.style.cursor = "not-allowed";
     resendBtn.style.cursor = "not-allowed";
+    signupBtn.style.cursor = 'pointer';
 
     if (verifyInput) verifyInput.disabled = true;
     if (verifyBtn) verifyBtn.disabled = true;
@@ -82,7 +84,6 @@ checkEmailBtn.addEventListener('click', async () => {
 
         // ✅ 인증코드 발급 버튼 활성화 (파란색)
         sendCodeBtn.disabled = false;
-        resendBtn.disabled=false;
         sendCodeBtn.style.backgroundColor = "#D2E0FB";
         sendCodeBtn.style.color = 'black';
         sendCodeBtn.style.cursor = "pointer";
@@ -104,11 +105,16 @@ sendCodeBtn.addEventListener('click', async () => {
     resendBtn.disabled = false;
     sendCodeBtn.disabled = true;
     sendCodeBtn.style.cursor = "not-allowed";
+    resendBtn.style.cursor = 'pointer';
 
     verifyInput.style.backgroundColor = "white";
     verifyBtn.style.backgroundColor = "#FEF9D9";
     resendBtn.style.backgroundColor = "#D2E0FB";
     sendCodeBtn.style.backgroundColor = "#E7E7E7";
+
+    // ✅ 여기에 안내 메시지 추가
+    verifyMsg.textContent = "5분 안에 인증코드를 정확히 입력해주세요.";
+    verifyMsg.style.color = "#333";
 
     startTimer(300); // 5분
 });
@@ -244,8 +250,6 @@ document.getElementById('id_email').addEventListener('input', () => {
     }
 });
 
-//이메일 인증코드 관련 코드
-
 
 // 비밀번호 체크
 document.getElementById('id_password1').addEventListener('input', () => {
@@ -339,33 +343,46 @@ function validateNickname(){
     return regex.test(nick);
 }
 
-document.getElementById('signup-form').addEventListener('submit', (e) => {
-    const formError = document.getElementById('js-form-error');
-    formError.textContent = ''; // JS 에러 메시지 초기화
-    
-    const isEmailFinal = isEmailChecked;
-    const isPwFinal = isPwValidFormat && isPwMatch;
-    const isNickFinal = isNicknameValid;
-    
-    if (!isEmailFinal || !isPwFinal || !isNickFinal) {
-        e.preventDefault(); // 폼 전송 중단
-        
-        // 모든 정보가 입력/확인되지 않았을 때 메시지 표시 (요청하신 부분)
-        formError.textContent = '모든 정보를 입력해주세요.';
-        
-        // 세부 워닝 메시지 재실행
-        if (!isEmailChecked) {
-            document.getElementById('email-message').style.color = 'red';
-            document.getElementById('email-message').textContent = '이메일 중복 확인을 완료해주세요.';
-        }
-        if (!isPwValidFormat) {
-            document.getElementById('pw1-message').style.color = 'red';
-        }
-        if (!isPwMatch) {
-            document.getElementById('pw2-message').style.color = 'red';
-        }
-        if (!isNicknameValid) {
-            document.getElementById('nickname-message').style.color = 'red';
-        }
+document.getElementById('signup-form').addEventListener('submit', async (e) => {
+  e.preventDefault(); // 새로고침 방지
+  const formError = document.getElementById('js-form-error');
+  formError.textContent = '';
+
+  const isEmailFinal = isEmailChecked;
+  const isPwFinal = isPwValidFormat && isPwMatch;
+  const isNickFinal = isNicknameValid;
+
+  if (!isEmailFinal || !isPwFinal || !isNickFinal) {
+    formError.textContent = '모든 정보를 입력해주세요.';
+    if (!isEmailChecked) {
+      document.getElementById('email-message').style.color = 'red';
+      document.getElementById('email-message').textContent = '이메일 중복 확인을 완료해주세요.';
     }
+
+    return;
+  }
+
+  // ✅ 회원가입 요청 전송
+  try {
+    const form = e.target;
+    const response = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+    });
+
+    if (response.ok) {
+      // ✅ 회원가입 성공 → 모달 표시
+      const modal = document.getElementById('successModal');
+        modal.classList.remove('hidden');
+        modal.style.display = 'flex';
+    } else {
+      formError.textContent = '회원가입 중 오류가 발생했습니다.';
+    }
+  } catch (error) {
+    console.error(error);
+    formError.textContent = '서버와 연결할 수 없습니다.';
+  }
 });
+
+
+
