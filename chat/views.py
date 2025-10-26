@@ -174,36 +174,82 @@ def delete_chat(request):
 def chat_list_view(request):
     chats = Chat.objects.filter(user=request.user).order_by('-created_at')
     return render(request, 'chat/chat.html', {'chats':chats})
+
+
 @login_required
-def change_pw(request):
-    # ✅ 1. GET 요청: changepw.html 렌더링
+def check_old_password(request):
+    old_pw = request.GET.get('old_pw')
+    user = request.user
+
+    if user.check_password(old_pw):
+        return JsonResponse({'result': 'success'})
+    else:
+        return JsonResponse({'result': 'fail'})
+
+
+@login_required
+def change_password(request):
+    # GET: 페이지 렌더 (주소창으로 들어왔을 때 JSON 에러 안 나게)
     if request.method == "GET":
-        return render(request, "chat/changepw.html")
+        return render(request, "chat/changepw.html")  # 네 템플릿 경로에 맞춰줘
 
-    # ✅ 2. POST 요청: 비밀번호 변경 로직
-    if request.method == "POST":
+    # POST: 비밀번호 변경 처리
+    old_pw = new_pw1 = new_pw2 = None
+
+    # JSON 바디로 오는 경우
+    if request.META.get("CONTENT_TYPE", "").startswith("application/json"):
         try:
-            data = json.loads(request.body.decode("utf-8"))
-        except:
-            return JsonResponse({"result": "invalid_json"})
+            data = json.loads(request.body or "{}")
+            old_pw = data.get("old_password")
+            new_pw1 = data.get("new_password1")
+            new_pw2 = data.get("new_password2")
+        except Exception:
+            return JsonResponse(
+                {"result": "fail", "message": "요청 본문을 해석할 수 없습니다."},
+                json_dumps_params={"ensure_ascii": False},
+                status=400,
+            )
+    else:
+        # 일반 폼 전송(FormData)인 경우
+        old_pw = request.POST.get("old_password")
+        new_pw1 = request.POST.get("new_password1")
+        new_pw2 = request.POST.get("new_password2")
 
-        old_pw = data.get("oldPw")
-        new_pw = data.get("newPw")
-        conf_pw = data.get("confPw")
+    user = request.user
 
-        user = request.user
+    if not old_pw or not new_pw1 or not new_pw2:
+        return JsonResponse(
+            {"result": "fail", "message": "필수 값이 누락되었습니다."},
+            json_dumps_params={"ensure_ascii": False},
+            status=400,
+        )
+    
 
-        if not user.check_password(old_pw):
-            return JsonResponse({"result": "wrong_old_pw"})
+    if not user.check_password(old_pw):
+        return JsonResponse(
+            {"result": "fail", "message": "기존 비밀번호가 올바르지 않습니다."},
+            json_dumps_params={"ensure_ascii": False},
+            status=400,
+        )
+    # ✅ 기존 비밀번호와 새 비밀번호 동일한 경우
+    if old_pw == new_pw1:
+        return JsonResponse(
+            {'result': 'fail', 'message': '기존 비밀번호와 동일한 비밀번호는 사용할 수 없습니다.'},
+            json_dumps_params={'ensure_ascii': False}
+        )
 
-        if new_pw != conf_pw:
-            return JsonResponse({"result": "mismatch"})
+    if new_pw1 != new_pw2:
+        return JsonResponse(
+            {"result": "fail", "message": "새 비밀번호가 일치하지 않습니다."},
+            json_dumps_params={"ensure_ascii": False},
+            status=400,
+        )
 
-        user.set_password(new_pw)
-        user.save()
-        update_session_auth_hash(request, user)  # ✅ 로그인 유지 핵심 코드
+    user.set_password(new_pw1)
+    user.save()
+    update_session_auth_hash(request, user)
 
-        return JsonResponse({"result": "success"})
-
-    # ✅ 3. 나머지 요청 (예: PUT, DELETE 등)은 invalid로 처리
-    return JsonResponse({"result": "invalid_request"})
+    return JsonResponse(
+        {"result": "success", "message": "비밀번호가 성공적으로 변경되었습니다."},
+        json_dumps_params={"ensure_ascii": False},
+    )

@@ -1,159 +1,209 @@
-#pwTitle {
-  text-align: center;
+/* === 기본 여백 리셋 === */
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #ffffff;
+  font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+}
+
+.changepw-container {
+  margin-top: 100px;       /* 상단 외부 여백 제거 */
+  padding-top: 100px;      /* 내부 여백 제거 */
+  display: inline-block;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.changepw-container h2 {
   font-size: 22px;
   font-weight: 600;
   color: #333;
-  margin-bottom: 30px;
+  text-align: center;
+  margin: 25px 0 30px 0; /* 위 25px(로고와 간격), 아래 12px(폼과 간격) */
 }
 
-
-/* 전체 폼 */
-.signup-box {
-  padding: 0;
-  width: 750px;
+.form-box {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  width: 100%;
+  gap: 10px;
   margin-bottom: 25px;
 }
 
-.form-group label {
-  display: inline-block;
-  margin-left: 100px;
-  font-size: 16px;
-  font-weight: 500;
-  width: 150px;
-  text-align: left;
-  padding-right: 10px;
-  margin-top: 8px;
-  margin-bottom: 0;
-  color: #333;
-  flex-shrink: 0; /* 라벨 폭 고정 */
-}
-
-/* 입력칸 + 메시지를 감싸는 컨테이너 */
-.input-content-group {
+.form-row {
   display: flex;
-  flex-direction: column; 
-  flex-grow: 1;
-  width: 230px;
-}
-
-/* 입력칸 */
-.input-content-group input[type="password"] {
-  width: 250px;
-  padding: 8px 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-}
-
-/* 입력칸 아래 info-message */
-.info-message {
-  display: block;
-  font-size: 13px;
-  color: #333;
-  text-align: left;
-}
-
-/* 에러 문구 */
-.error-message {
-  display: block;
-  font-size: 13px;
-  color: red;
-  text-align: left;
-}
-
-/* 에러 메시지 중앙 정렬 */
-#error-message {
-  text-align: center;
-  color: red;
-  font-size: 13px;
-  margin-bottom: 8px; /* 버튼과의 간격 */
-}
-#submit-group{
-  width: 100%;
-  display: flex;
-  flex-direction: column;  /* 세로 정렬 */
-  align-items: center;     /* 중앙 정렬 */
-  margin-top: 10px;
-}
-
-/* 버튼 중앙 정렬 */
-.button-group {
-  width: 100%;
-  display: flex;
+  align-items: flex-start;
   justify-content: center;
-  margin-top: 10px;
+  gap: 10px;
+  width: 100%;
+  max-width: 600px;
+
 }
 
-/* 변경 버튼 */
-.changePwBtn {
-  background-color: #fff9cf;
+label {
+  width: 130px;
+  font-weight: 500;
+  font-size: 15px;
+  color: #333;
+  text-align: left;
+  padding-top: 6px;
+}
+
+/* 입력칸 스타일 */
+input[type="password"] {
+  width: 270px;
+  height: 36px;
   border: 1px solid #333;
   border-radius: 6px;
-  padding: 8px 20px;
+  padding: 6px 10px;
   font-size: 14px;
-  cursor: pointer;
-  transition: 0.3s;
+  box-sizing: border-box;
+  margin-bottom:10px;
 }
 
-/* --- 모달 --- */
+.code-row input[type="text"] {
+  width: 160px !important;   /* 기존보다 좌우 20px 정도 줄임 */
+}
+
+.small-btn {
+  background-color:#fff9cf;
+  border: 1.5px solid #333;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #333;
+  padding: 6px 12px;
+  height: 36px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+
+
+.input-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-box .guide-text {
+  font-size: 13px;
+  width:300px;
+  color: #444;
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+
+#verify-message,
+#timer {
+  font-size: 13px;
+  color: #333;
+  margin-top: 6px;
+}
+
+
+/* 새 비밀번호 */
+.oldpw-row,
+.newpw-row,
+.confirmpw-row {
+  justify-content: flex-start;
+  margin-left: 80px;
+}
+
+#out-of-form {
+  display: flex;
+  flex-direction: column; 
+  align-items: center;     
+  justify-content: center; 
+  margin-top: 20px;
+  width: 100%;
+}
+
+#out-of-form .guide-text {
+  text-align:center;
+  margin-bottom : 10px;
+}
+
+#completeBtn {
+  background-color: #fff9cf;
+  border: 1.5px solid #333;
+  border-radius: 8px;
+  font-size: 15px;
+  color: #333;
+  padding: 5px 8px;
+  transition: all 0.2s ease;
+  align-items:center;
+  width:70px;
+  cursor: pointer;
+}
+
+
+#complete-message {
+  font-size: 13px;
+  width:300px;
+  color: #444;
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+
+/* ✅ 모달 전체 영역 (배경) */
 .modal {
-  position: fixed;
+  position:fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100vw;                   /* 화면 전체 */
   height: 100vh;
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.25); /* 조금 더 진하게, 모달 강조 */
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
 }
 
+/* ✅ 모달 숨기기 */
 .hidden {
   display: none;
 }
 
+/* ✅ 모달 본문 (작고 중앙 정렬된 카드 느낌) */
 .modal-content {
-  height: 100px;
   background-color: #fffef8;
-  padding: 20px 30px;
-  width: 250px;
+  width: 300px;               /* 💡 크기 조정 */
+  height: 100px;
+  padding: 25px 30px;         /* 💡 내부 여백 줄임 */
   border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.25);
   text-align: center;
-  animation: fadeIn 0.3s ease;
+  align-items:center;
+  animation: fadeIn 0.25s ease;
 }
 
+/* ✅ 모달 문구 */
 .modal-content p {
   font-size: 15px;
   color: #333;
-  margin-bottom: 10px;
+  margin-bottom: 18px;
+  line-height: 1.5;
 }
 
+/* ✅ 닫기 버튼 */
 .modal-content button {
   background-color: #fff9cf;
-  border: 1.5px solid #d6c784;
+  border: 1.5px solid #333;
   border-radius: 6px;
+  width:70px;
   font-size: 14px;
-  padding: 6px 25px;
+  padding: 5px 8px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  display: block;
-  margin: 10px auto 0;
+  transition: background-color 0.2s ease;
 }
 
-.modal-content button:hover {
-  background-color: #fdf4b8;
-}
+
+
+
+

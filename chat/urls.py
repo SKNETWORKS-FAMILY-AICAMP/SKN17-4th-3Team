@@ -14,5 +14,6 @@ urlpatterns = [
     path('<int:chat_id>/', views.chat_main, name='chat_main_with_id'),
     path('create_chat/', views.create_chat, name='create_chat'),
     path('delete_chat/', views.delete_chat, name='delete_chat'),
-    path('change_pw/', views.change_pw, name='change_pw'),
+    path('change_pw/', views.change_password, name='change_pw'),
+    path('check_old_password/',views.check_old_password,name="check_old_password"),
 ]

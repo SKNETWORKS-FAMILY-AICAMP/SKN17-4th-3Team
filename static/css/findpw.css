@@ -1,28 +1,30 @@
+/* === 기본 여백 리셋 === */
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
 body {
   background: #ffffff;
   font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
 }
 
-/* =============================== */
-/* 전체 레이아웃 */
-/* =============================== */
 .findpw-container {
-  width: 750px;
-  margin: 0 auto;
-  padding-top: 40px;
-  display: flex;
+  margin-top: 100px;       /* 상단 외부 여백 제거 */
+  padding-top: 100px;      /* 내부 여백 제거 */
+  display: inline-block;
   flex-direction: column;
   align-items: center;
 }
+
 
 .findpw-container h2 {
   font-size: 22px;
   font-weight: 600;
   color: #333;
-  margin-bottom: 40px;
   text-align: center;
+  margin: 25px 0 30px 0; /* 위 25px(로고와 간격), 아래 12px(폼과 간격) */
 }
-
 
 .form-box {
   width: 100%;
@@ -39,11 +41,9 @@ body {
   gap: 10px;
   width: 100%;
   max-width: 600px;
+
 }
 
-/* =============================== */
-/* 라벨 / 입력칸 / 버튼 정렬 통일 */
-/* =============================== */
 label {
   width: 130px;
   font-weight: 500;
@@ -52,7 +52,6 @@ label {
   text-align: left;
   padding-top: 6px;
 }
-
 
 /* 입력칸 스타일 */
 input[type="email"],
@@ -65,6 +64,7 @@ input[type="password"] {
   padding: 6px 10px;
   font-size: 14px;
   box-sizing: border-box;
+  margin-bottom:10px;
 }
 
 .code-row input[type="text"] {
@@ -73,7 +73,7 @@ input[type="password"] {
 
 
 .small-btn {
-  background-color: #fffbe9;
+  background-color:#fff9cf;
   border: 1.5px solid #333;
   border-radius: 6px;
   font-size: 13px;
@@ -83,6 +83,33 @@ input[type="password"] {
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
+}
+
+#sendCodeBtn {
+  background-color: #fff9cf;
+  width: 110px;
+  padding: 5px 8px;
+  border-color: black;
+
+}
+#verifyBtn:enabled {
+  background-color:#fff9cf !important;
+}
+
+#resendBtn {
+  background-color: #E7E7E7;
+  border: 1.5px solid #333;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #333;
+  padding: 6px 12px;
+  height: 36px;
+  transition: all 0.2s ease;
+}
+
+#resendBtn:enabled {
+  background-color: #D2E0FB !important; /* 파란색 계열 */
+  cursor: pointer;
 }
 
 .input-box {
@@ -120,6 +147,11 @@ input[type="password"] {
   color: #333;
   margin-top: 6px;
 }
+#verifyBtn {
+  width: 90px;
+  padding: 5px 8px;
+  border-color: black;
+}
 
 /* 새 비밀번호 */
 .newpw-row,
@@ -128,93 +160,91 @@ input[type="password"] {
   margin-left: 80px;
 }
 
+#out-of-form {
+  display: flex;
+  flex-direction: column; 
+  align-items: center;     
+  justify-content: center; 
+  margin-top: 20px;
+  width: 100%;
+}
+
+#out-of-form .guide-text {
+  text-align:center;
+  margin-bottom : 10px;
+}
+
 #completeBtn {
-  background-color: #fffbe9;
+  background-color: #fff9cf;
   border: 1.5px solid #333;
   border-radius: 8px;
   font-size: 15px;
   color: #333;
-  padding: 8px 30px;
-  margin-top: 10px;
+  padding: 5px 8px;
   transition: all 0.2s ease;
+  align-items:center;
+  width:70px;
   cursor: pointer;
 }
 
-#completeBtn:hover {
-  background-color: #fff6c8;
+
+#complete-message {
+  font-size: 13px;
+  width:300px;
+  color: #444;
+  margin-top: 6px;
+  line-height: 1.4;
 }
 
-#timer {
-  color: green;
-}
 
-
-/* 모달 */
+/* ✅ 모달 전체 영역 (배경) */
 .modal {
-  position: fixed;
+  position:fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.1); /* 투명도를 낮춤 */
+  width: 100vw;                   /* 화면 전체 */
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.25); /* 조금 더 진하게, 모달 강조 */
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
 }
-/* 모달 숨기기 */
+
+/* ✅ 모달 숨기기 */
 .hidden {
   display: none;
 }
 
+/* ✅ 모달 본문 (작고 중앙 정렬된 카드 느낌) */
 .modal-content {
   background-color: #fffef8;
-  padding: 30px 50px;
+  width: 300px;               /* 💡 크기 조정 */
+  height: 100px;
+  padding: 25px 30px;         /* 💡 내부 여백 줄임 */
   border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.25);
   text-align: center;
+  align-items:center;
+  animation: fadeIn 0.25s ease;
 }
+
+/* ✅ 모달 문구 */
 .modal-content p {
   font-size: 15px;
   color: #333;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
+  line-height: 1.5;
 }
+
+/* ✅ 닫기 버튼 */
 .modal-content button {
   background-color: #fff9cf;
-  border: 1.5px solid #d6c784;
+  border: 1.5px solid #333;
   border-radius: 6px;
+  width:70px;
   font-size: 14px;
-  padding: 5px 20px;
+  padding: 5px 8px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
-.modal-content button:hover {
-  background-color: #fdf4b8;
-}
-
-.modal-content {
-  background-color: #fffef8;
-  padding: 30px 50px;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-  text-align: center;
-}
-
-.modal-content p {
-  font-size: 15px;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-.modal-content button {
-  background-color: #fff9cf;
-  border: 1.5px solid #d6c784;
-  border-radius: 6px;
-  font-size: 14px;
-  padding: 5px 20px;
-  cursor: pointer;
-}
-
-.modal-content button:hover {
-  background-color: #fdf4b8;
-}
-

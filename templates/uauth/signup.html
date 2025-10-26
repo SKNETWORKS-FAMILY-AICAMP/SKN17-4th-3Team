@@ -62,14 +62,13 @@
         </div>
 
         {{ form.username }}
-
-        <div class = "button-group">
-            <button type="submit" class="signup-btn" id='signup-btn'>회원가입</button>
-        </div>
         {% for error in form.non_field_errors %}
             <span id="form-error" class="error-text">{{ error }}</span>
         {% endfor %}
         <span id = "js-form-error" class="error-text"></span>
+        <div class = "button-group">
+            <button type="submit" class="signup-btn" id='signup-btn'>회원가입</button>
+        </div>
     </form>
 </div>
 {% include 'uauth/signup_modal.html' with page_type='signup' %}

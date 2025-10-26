@@ -1,11 +1,3 @@
-{% comment %} {% load static %}
-<header>
-    <a href="{% url 'uauth:main' %}">
-        <img src="{% static 'images/logo.png' %}"/>
-    </a>
-    <span>떠나봄</span>
-</header> {% endcomment %}
-
 {% load static %}
 <header>
     {% if '/chat/' in request.path %}

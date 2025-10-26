@@ -16,19 +16,21 @@ def main(request):
 
 def login_view(request):
     if request.method == 'POST':
-        
         email = request.POST.get('email')
         password = request.POST.get('password')
         user = authenticate(request, username=email, password=password)
 
         if user is not None:
-            print("로그인 성공:", user)
-            print(user.id)
             auth_login(request, user)
-            # chat, _ = Chat.objects.get_or_create(user=user)
-            return redirect('chat:chat_main')  # 로그인 성공 시 이동할 페이지
+            # 로그인 성공 시 같은 페이지 렌더 + 모달 표시
+            try:
+                nickname = user.userdetail.nickname
+            except Exception:
+                nickname = user.username  # 혹시 예외가 나면 fallback
+            return render(request, 'uauth/main.html', {'login_success': True,'nickname': nickname })
         else:
             messages.error(request, '이메일과 비밀번호를 확인해주세요.')
+            return redirect('uauth:main')
     return redirect('uauth:main')
 
 

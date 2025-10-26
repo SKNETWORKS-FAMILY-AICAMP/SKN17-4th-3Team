@@ -1,12 +1,14 @@
+{% extends 'layout/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <title>비밀번호 찾기 | 떠나봄</title>
-  <link rel="stylesheet" href="{% static 'css/findpw.css' %}">
-</head>
-<body>
+
+{% block title %}비밀번호 찾기 | 떠나봄{% endblock title %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href = "{% static 'css/findpw.css' %}">
+{% endblock extra_head%}
+
+
+{% block content %}
   <main class="findpw-container">
     <h2>비밀번호 찾기</h2>
     <form id='findpw-form' method="post" enctype="multipart/form-data" novalidate>
@@ -57,11 +59,13 @@
         </div>
       </div>
     </form>
-    <button id="completeBtn">완료</button>
+    <div id='out-of-form'>
+      <div id="complete-message" class="guide-text"></div>
+      <button id="completeBtn">완료</button>
+    </div>
 </div>
     
   </main>
   {% include 'uauth/findpw_modal.html' with page_type='findpw' %}
   <script src="{% static 'js/findpw.js' %}"></script>
-</body>
-</html>
+{% endblock content %}

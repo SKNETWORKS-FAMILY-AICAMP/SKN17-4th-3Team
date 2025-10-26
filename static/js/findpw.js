@@ -9,6 +9,7 @@ const completeBtn = document.getElementById("completeBtn");
 
 const emailMsg = document.getElementById("email-message");
 const verifyMsg = document.getElementById("verify-message");
+const completeMsg = document.getElementById('complete-message');
 
 let isEmailChecked = false;
 let isEmailVerified = false;
@@ -18,6 +19,7 @@ let prevEmailValue = "";
 
 // ✅ 초기 상태: 인증 관련 요소 비활성화
 function disableVerificationArea() {
+    sendCodeBtn.style.backgroundColor="#fff9cf";
     resendBtn.style.backgroundColor = "#E7E7E7";
     verifyBtn.style.backgroundColor = "#E7E7E7";
     codeInput.style.backgroundColor = "#E7E7E7";
@@ -100,10 +102,12 @@ sendCodeBtn.addEventListener("click", async (e) => {
 
             // 인증 관련 요소 활성화
             resendBtn.disabled = false;
-            resendBtn.style.backgroundColor = "#fff9cf";
+            resendBtn.offsetHeight; // ✨추가
+            resendBtn.style.backgroundColor = "#D2E0FB";
             resendBtn.style.cursor = "pointer";
 
             verifyBtn.disabled = false;
+            verifyBtn.offsetHeight; // ✨추가
             verifyBtn.style.backgroundColor = "#fff9cf";
             verifyBtn.style.cursor = "pointer";
 
@@ -319,21 +323,25 @@ completeBtn.addEventListener("click", () => {
 
     if (!isEmailVerified) {
         completeMsg.textContent = "이메일 인증을 완료해주세요.";
+        completeMsg.style.color='red';
         return;
     }
 
     if (pw === "" || confirmPw === "") {
         completeMsg.textContent = "모든 정보를 입력해주세요.";
+        completeMsg.style.color='red';
         return;
     }
 
     if (!validatePassword(pw)) {
         completeMsg.textContent = "비밀번호 형식을 확인해주세요.";
+        completeMsg.style.color='red';
         return;
     }
 
     if (pw !== confirmPw) {
         completeMsg.textContent = "비밀번호가 일치하지 않습니다.";
+        completeMsg.style.color='red';
         return;
     }
 
@@ -364,11 +372,13 @@ completeBtn.addEventListener("click", () => {
             });
         } else {
             completeMsg.textContent = data.message || "비밀번호 변경에 실패했습니다.";
+            completeMsg.style.color='red';
         }
     })
     .catch(error => {
         console.error("비밀번호 변경 요청 실패:", error);
         completeMsg.textContent = "서버 오류가 발생했습니다.";
+        completeMsg.style.color='red';
     });
 });
 
