@@ -120,12 +120,54 @@ sendCodeBtn.addEventListener('click', async () => {
 });
 
 // 인증 확인 버튼 클릭
+// verifyBtn.addEventListener('click', async () => {
+//     const email = emailInput.value.trim();
+//     const code = verifyInput.value.trim();
+
+//     if (!code) {
+//         verifyMsg.textContent = "시간 내에 인증코드를 정확히 입력해주세요.";
+//         verifyMsg.style.color = "red";
+//         return;
+//     }
+
+//     const res = await fetch(`/uauth/verify_code/?email=${email}&code=${code}`);
+//     const data = await res.json();
+
+//     if (data.result === 'success') {
+//         verifyMsg.textContent = "인증이 완료되었습니다.";
+//         verifyMsg.style.color = "#2600FF";
+//         clearInterval(verificationTimer);
+//         isEmailVerified = true;
+
+//         // ✅ 입력칸 / 버튼 비활성화
+//         verifyInput.disabled = true;
+//         verifyInput.style.backgroundColor = '#E7E7E7';
+//         verifyInput.style.cursor = 'not-allowed';
+
+//         verifyBtn.disabled = true;
+//         verifyBtn.style.backgroundColor = '#E7E7E7';
+//         verifyBtn.style.cursor = 'not-allowed';
+
+//         resendBtn.disabled = true;
+//         resendBtn.style.backgroundColor = '#E7E7E7';
+//         resendBtn.style.cursor = 'not-allowed'; 
+
+
+//     } else if (data.result === 'timeout') {
+//         verifyMsg.textContent = "시간이 초과되었습니다. 인증코드를 재발급 받아주세요.";
+//         verifyMsg.style.color = "red";
+//     } else {
+//         verifyMsg.textContent = "인증코드가 틀렸습니다. 다시 확인해주세요.";
+//         verifyMsg.style.color = "red";
+//     }
+// });
+// 인증 확인 버튼 클릭
 verifyBtn.addEventListener('click', async () => {
     const email = emailInput.value.trim();
     const code = verifyInput.value.trim();
 
     if (!code) {
-        verifyMsg.textContent = "시간 내에 인증코드를 정확히 입력해주세요.";
+        verifyMsg.textContent = "인증코드를 입력해주세요.";
         verifyMsg.style.color = "red";
         return;
     }
@@ -133,13 +175,16 @@ verifyBtn.addEventListener('click', async () => {
     const res = await fetch(`/uauth/verify_code/?email=${email}&code=${code}`);
     const data = await res.json();
 
+    // ✅ 모든 경우 기본값은 false로 시작
+    isEmailVerified = false;
+
     if (data.result === 'success') {
         verifyMsg.textContent = "인증이 완료되었습니다.";
         verifyMsg.style.color = "#2600FF";
         clearInterval(verificationTimer);
         isEmailVerified = true;
 
-        // ✅ 입력칸 / 버튼 비활성화
+        // 입력 및 버튼 비활성화
         verifyInput.disabled = true;
         verifyInput.style.backgroundColor = '#E7E7E7';
         verifyInput.style.cursor = 'not-allowed';
@@ -152,13 +197,14 @@ verifyBtn.addEventListener('click', async () => {
         resendBtn.style.backgroundColor = '#E7E7E7';
         resendBtn.style.cursor = 'not-allowed'; 
 
-
     } else if (data.result === 'timeout') {
         verifyMsg.textContent = "시간이 초과되었습니다. 인증코드를 재발급 받아주세요.";
         verifyMsg.style.color = "red";
+        isEmailVerified = false; // ✅ 반드시 false로 유지
     } else {
         verifyMsg.textContent = "인증코드가 틀렸습니다. 다시 확인해주세요.";
         verifyMsg.style.color = "red";
+        isEmailVerified = false; // ✅ 틀릴 경우도 false로 유지
     }
 });
 
@@ -343,6 +389,7 @@ function validateNickname(){
     return regex.test(nick);
 }
 
+
 document.getElementById('signup-form').addEventListener('submit', async (e) => {
   e.preventDefault(); // 새로고침 방지
   const formError = document.getElementById('js-form-error');
@@ -351,6 +398,14 @@ document.getElementById('signup-form').addEventListener('submit', async (e) => {
   const isEmailFinal = isEmailChecked;
   const isPwFinal = isPwValidFormat && isPwMatch;
   const isNickFinal = isNicknameValid;
+
+  // ✅ 추가: 이메일 인증 여부 체크
+  if (!isEmailVerified) {
+    formError.textContent = '이메일 인증을 완료해주세요.';
+    verifyMsg.style.color = 'red';
+    verifyMsg.textContent = '이메일 인증을 완료해야 회원가입이 가능합니다.';
+    return;
+  }
 
   if (!isEmailFinal || !isPwFinal || !isNickFinal) {
     formError.textContent = '모든 정보를 입력해주세요.';

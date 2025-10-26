@@ -71,7 +71,6 @@ def withdraw_view(request):
         logout(request)
         return JsonResponse({'success': True, 'message': '회원 탈퇴가 완료되었습니다.'})
     
-
 def chat_choice(request):
     area = '전주'
     user_id = 3
@@ -80,7 +79,6 @@ def chat_choice(request):
         user_id=user_id,
     )
     return render(request, 'chat/chat_choice.html')
-
 
 def save_message(request):
     # fetch로 요청 받으면 해당 응답 DB에 저장
