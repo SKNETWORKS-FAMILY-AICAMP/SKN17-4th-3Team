@@ -18,7 +18,7 @@
   <!-- 챗봇 메시지 -->
   {% if chat %}
   <div class="bot-message">
-      <div class="message-bubble bot">{{ chat.area }}에서 누구와 어떤 여행을 하고 싶은지 저에게 알려주세요!!</div>
+      <div class="message-bubble bot">{{ chat.area_clean }}에서 누구와 어떤 여행을 하고 싶은지 저에게 알려주세요!!</div>
   </div>
   {% endif %}
 
@@ -292,6 +292,25 @@
 
   findPwBtn.addEventListener('click', async () => {
     window.location.href = "{% url 'chat:change_pw' %}"
+  });
+
+  newChatBtn.addEventListener('click', () => {
+  const chatCount = document.querySelectorAll('.chat-item').length;  // 현재 채팅 개수 확인
+
+  if (chatCount >= 10) {
+    alert('채팅은 최대 10개까지만 생성할 수 있습니다.');
+    return; // 모달 열리지 않게 중단
+  }
+
+  newChatModal.style.display = 'flex'; // 채팅이 10개 미만일 때만 새 채팅 모달 열기
+  });
+  window.addEventListener('DOMContentLoaded', () => {
+  const chatCount = document.querySelectorAll('.chat-item').length;
+  if (chatCount >= 10) {
+    newChatBtn.disabled = true;
+    newChatBtn.style.backgroundColor = '#E7E7E7';
+    newChatBtn.style.cursor = 'not-allowed';
+  }
   });
 
 </script>
