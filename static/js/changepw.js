@@ -1,126 +1,147 @@
-(() => {
-  // 모달로 AJAX 삽입된 뒤 실행되므로 DOMContentLoaded 사용하지 않음
-  const form = document.getElementById("changePwForm");
-  if (!form) return;
+// ✅ 폼 자동 전송 방지
+document.getElementById("changePwForm").addEventListener("submit", (e) => e.preventDefault());
 
-  const currentPw = document.getElementById("current_password"); // name=old_password
-  const newPw = document.getElementById("new_password");         // name=new_password1
-  const confirmPw = document.getElementById("confirm_password"); // name=new_password2
+// ✅ 요소 가져오기
+const changeBtn = document.getElementById("submitBtn");
+const currentPwInput = document.getElementById("current_password");
+const newPwInput = document.getElementById("new_password");
+const confPwInput = document.getElementById("confirm_password");
 
-  const currentMsg = document.getElementById("current_password_error");
+const currentPwError = document.getElementById("current_password_error");
+const confirmPwMsg = document.getElementById("confirm_password_message");
+const errorMsg = document.getElementById("error-message");
+
+// ✅ 비밀번호 일치 여부 실시간 확인
+confPwInput.addEventListener("input", () => {
+  const newPw = newPwInput.value.trim();
+  const confPw = confPwInput.value.trim();
+
+  if (confPw === "") {
+    confirmPwMsg.textContent = "";
+    return;
+  }
+
+  if (newPw === confPw) {
+    confirmPwMsg.textContent = "비밀번호가 일치합니다.";
+    confirmPwMsg.style.color = "#2600FF"; // 파란색
+  } else {
+    confirmPwMsg.textContent = "비밀번호가 일치하지 않습니다.";
+    confirmPwMsg.style.color = "red"; // 빨간색
+  }
+});
+
+// ✅ 비밀번호 유효성 검사 함수
+function validatePassword(pw) {
+  const regex = /^[A-Za-z0-9]{4,15}$/;
+  return regex.test(pw);
+}
+
+// ✅ 새 비밀번호 입력 시 실시간 검사
+
+newPwInput.addEventListener("input", () => {
   const newPwMsg = document.getElementById("new_password_message");
-  const confirmPwMsg = document.getElementById("confirm_password_message");
+  const pw = newPwInput.value.trim();
 
-  if (newPwMsg) {
-    newPwMsg.textContent = "4~15자 사이의 영어 대/소문자, 숫자를 사용하세요.";
-    newPwMsg.style.color = "black";
+  if (pw === "") {
+    newPwMsg.textContent = "4~15자 사이의 영어 대/소문자, 숫자만을 사용하세요.";
+    newPwMsg.style.color = "#333"; // 원래 색상 (기본 안내)
+    return;
   }
 
-  function validatePassword(pw) {
-    return /^[A-Za-z0-9]{4,15}$/.test(pw);
+ if (!validatePassword(pw)) {
+  newPwMsg.style.color = "red";
+} else {
+  newPwMsg.textContent = "비밀번호 형식이 올바릅니다.";
+  newPwMsg.style.color = "#2600FF";
+}
+});
+
+// ✅ 변경 버튼 클릭 시
+changeBtn.addEventListener("click", async (event) => {
+  event.preventDefault();
+  console.log("🔹 버튼 클릭됨"); // 디버깅용
+
+  const oldPw = currentPwInput.value.trim();
+  const newPw = newPwInput.value.trim();
+  const confPw = confPwInput.value.trim();
+
+  // 초기화
+  currentPwError.textContent = "";
+
+  if (!oldPw || !newPw || !confPw) {
+    errorMsg.textContent = "모든 정보를 입력해주세요";
+    errorMsg.style.color = 'red';
+    return;
+  }
+  // ✅ 기존 비밀번호와 새 비밀번호가 동일한 경우
+  if (oldPw === newPw) {
+    errorMsg.textContent = "기존 비밀번호와 동일합니다.";
+    currentPwError.style.color = "red";
+    return;
   }
 
-  newPw.addEventListener("input", () => {
-    const pw = newPw.value.trim();
-    if (pw === "") {
-      newPwMsg.textContent = "4~15자 사이의 영어 대/소문자, 숫자를 사용하세요.";
-      newPwMsg.style.color = "black";
+  try {
+    const res = await fetch("/chat/change_pw/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCookie("csrftoken"),
+      },
+      body: JSON.stringify({
+        oldPw: oldPw,
+        newPw: newPw,
+        confPw: confPw,
+      }),
+    });
+
+    const data = await res.json();
+    console.log("서버 응답:", data);
+
+    // ✅ 기존 비밀번호 틀림
+    if (data.result === "wrong_old_pw") {
+      currentPwError.textContent = "잘못된 비밀번호입니다.";
+      currentPwError.style.color = "red";
       return;
     }
-    if (!validatePassword(pw)) {
-      newPwMsg.textContent = "4~15자 사이의 영어 대/소문자, 숫자를 사용하세요.";
-      newPwMsg.style.color = "red";
-    } else {
-      newPwMsg.textContent = "사용 가능한 비밀번호입니다.";
-      newPwMsg.style.color = "#2600FF"; // 회원가입 UX와 통일
+
+    // ✅ 새 비밀번호 불일치
+    if (data.result === "mismatch") {
+      confirmPwMsg.textContent = "비밀번호가 일치하지 않습니다.";
+      confirmPwMsg.style.color = "red";
+      return;
     }
-    checkPasswordMatch();
+
+    // ✅ 성공
+    if (data.result === "success") {
+  // ✅ 모달 표시
+  const modal = document.getElementById("pwChangeCompleteModal");
+  modal.classList.remove("hidden");
+
+  // ✅ 닫기 버튼 클릭 시 이동
+  const closeBtn = document.getElementById("pwChangeCloseBtn");
+  closeBtn.addEventListener("click", () => {
+    modal.classList.add("hidden");
+    window.location.href = "/chat/"; // 로그인 유지 상태로 이동
   });
+}
 
-  confirmPw.addEventListener("input", checkPasswordMatch);
-  function checkPasswordMatch() {
-    const pw = newPw.value.trim();
-    const confirm = confirmPw.value.trim();
-    if (confirm === "") {
-      confirmPwMsg.textContent = "";
-      return;
-    }
-    if (pw === confirm) {
-      confirmPwMsg.textContent = "비밀번호가 일치합니다.";
-      confirmPwMsg.style.color = "#2600FF";
-    } else {
-      confirmPwMsg.textContent = "비밀번호가 일치하지 않습니다.";
-      confirmPwMsg.style.color = "red";
-    }
+  } catch (error) {
+    console.error("에러 발생:", error);
   }
+});
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
-    const formData = new FormData(form);
-
-    const old = currentPw.value.trim();
-    const pw = newPw.value.trim();
-    const confirm = confirmPw.value.trim();
-
-    if (!old || !pw || !confirm) {
-      alert("모든 정보를 입력해주세요.");
-      return;
-    }
-    if (!validatePassword(pw)) {
-      newPwMsg.textContent = "비밀번호 형식을 확인해주세요.";
-      newPwMsg.style.color = "red";
-      return;
-    }
-    if (pw !== confirm) {
-      confirmPwMsg.textContent = "비밀번호가 일치하지 않습니다.";
-      confirmPwMsg.style.color = "red";
-      return;
-    }
-
-    try {
-      const res = await fetch("/chat/change_password/", {
-        method: "POST",
-        headers: { "X-CSRFToken": csrfToken },
-        body: formData,
-      });
-      const result = await res.json();
-
-      if (result.success) {
-        // 비밀번호 변경 성공 → 변경 모달 닫고 완료 모달 열기
-        document.getElementById("changePwModal").style.display = "none";
-        const successModal = document.getElementById("pwChangeCompleteModal");
-        if (successModal) {
-            successModal.classList.remove("hidden");
-            successModal.style.display = "flex";
-        }
-
-        const closeBtn = document.getElementById("closeBtn");
-        if (closeBtn && !closeBtn.dataset.bound) {
-          closeBtn.addEventListener("click", () => {
-            const redirectUrl = closeBtn.getAttribute("data-url") || "/chat/";
-            window.location.href = redirectUrl;
-          });
-          closeBtn.dataset.bound = "true";
-        }
-      } else {
-        // 서버 폼 에러 매핑
-        if (result.errors && (result.errors.old_password || result.errors.current_password)) {
-          currentMsg.textContent = "잘못된 비밀번호입니다. 비밀번호를 다시 입력해주세요.";
-          currentMsg.style.color = "red";
-        } else if (result.errors && (result.errors.new_password2 || result.errors.new_password1)) {
-          // 새 비밀번호 정책/일치 오류도 화면에 표시
-          newPwMsg.textContent = "비밀번호 정책을 확인하거나, 두 비밀번호가 일치하는지 확인하세요.";
-          newPwMsg.style.color = "red";
-        } else {
-          alert("비밀번호 변경 실패: 입력을 확인해주세요.");
-        }
+// ✅ CSRF 토큰 가져오기
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== "") {
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === name + "=") {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
       }
-    } catch (err) {
-      console.error(err);
-      alert("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
     }
-  });
-})();
-
+  }
+  return cookieValue;
+}
