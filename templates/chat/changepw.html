@@ -1,3 +1,11 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/signup.css' %}">
+{% endblock style%}
+
+{% block content %}
 <form id="changePwForm" method="post">
   {% csrf_token %}
 
@@ -19,8 +27,79 @@
   <div class="form-group">
     <label for="confirm_password">새 비밀번호 확인</label>
     <input type="password" id="confirm_password" name="new_password2" required>
-    <span id="confirm_password_message" class="info-message"></span>
+    <span id="confirm_password_message" class="info-message">
+
+    </span>
   </div>
 
-  <button type="submit" class="btn">변경</button>
+  <button type="submit" class="signup-btn" id="submitBtn">변경</button>
 </form>
+
+<script>
+  const changeBtn = document.getElementById('submitBtn')
+  
+  changeBtn.addEventListener("click", () => {
+    // const pw = newPwInput.value.trim();
+    // const confirmPw = confirmPwInput.value.trim();
+    // const email = emailInput.value.trim();
+    
+    const oldPw = document.getElementById('current_password').value.trim();
+    const newPw = document.getElementById('new_password').value.trim();
+    const confPw = document.getElementById('confirm_password').value.trim();
+
+    // if (!isEmailVerified) {
+    //     completeMsg.textContent = "이메일 인증을 완료해주세요.";
+    //     return;
+    // }
+
+    if (newPw === "" || confPw === "") {
+        completeMsg.textContent = "모든 정보를 입력해주세요.";
+        return;
+    }
+
+    if (!validatePassword(newPw)) {
+        completeMsg.textContent = "비밀번호 형식을 확인해주세요.";
+        return;
+    }
+
+    if (newPw !== confPw) {
+        completeMsg.textContent = "비밀번호가 일치하지 않습니다.";
+        return;
+    }
+
+    // ✅ 모든 조건 통과 시 비밀번호 변경 요청
+
+    res = fetch("/chat/change_pw/", {   // ← Django의 URL 이름과 일치시킴
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken"),
+        },
+        body: JSON.stringify({
+          oldPw: oldPw,
+          newPw: newPw,
+          confPw: confPw,
+        }),
+    });
+    // .then(res => res.json())
+
+    window.location.href = "{% url 'chat:chat_main' %}"
+
+  });
+
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + "=")) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+  }
+</script>
+{% endblock content %}
