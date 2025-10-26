@@ -3,6 +3,7 @@ from django.contrib.auth import logout
 from django.contrib import messages
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
 from django.http import JsonResponse
 from chat.models import Chat, Chat_log
 from django.views.decorators.csrf import csrf_exempt
@@ -173,25 +174,36 @@ def delete_chat(request):
 def chat_list_view(request):
     chats = Chat.objects.filter(user=request.user).order_by('-created_at')
     return render(request, 'chat/chat.html', {'chats':chats})
-
+@login_required
 def change_pw(request):
-    if request.method == 'POST':
-        print('폼 제출 성공!!')
-        # print('request')
-        # print(request.body)
-        form = UserForm(request.POST, request.FILES)
-        # print('form')
-        # print(form)
-        # if form.is_valid():
-        data = json.loads(request.body.decode('utf-8'))
-        
-        old_pw = data.get('oldPw')
-        new_pw = data.get('newPw')
-        conf_pw = data.get('confPw')
+    # ✅ 1. GET 요청: changepw.html 렌더링
+    if request.method == "GET":
+        return render(request, "chat/changepw.html")
 
-        print('request 받은거')
-        print(old_pw, new_pw, conf_pw)
-        return
-    else:
-        form = UserForm()
-    return render(request, 'chat/changepw.html', {'form': form})
+    # ✅ 2. POST 요청: 비밀번호 변경 로직
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body.decode("utf-8"))
+        except:
+            return JsonResponse({"result": "invalid_json"})
+
+        old_pw = data.get("oldPw")
+        new_pw = data.get("newPw")
+        conf_pw = data.get("confPw")
+
+        user = request.user
+
+        if not user.check_password(old_pw):
+            return JsonResponse({"result": "wrong_old_pw"})
+
+        if new_pw != conf_pw:
+            return JsonResponse({"result": "mismatch"})
+
+        user.set_password(new_pw)
+        user.save()
+        update_session_auth_hash(request, user)  # ✅ 로그인 유지 핵심 코드
+
+        return JsonResponse({"result": "success"})
+
+    # ✅ 3. 나머지 요청 (예: PUT, DELETE 등)은 invalid로 처리
+    return JsonResponse({"result": "invalid_request"})

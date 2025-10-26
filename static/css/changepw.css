@@ -1,42 +1,119 @@
-form {
-  width: 320px;
-  margin: 80px auto;
-  background-color: #fffef8;
-  border: 1px solid #eee;
-  border-radius: 10px;
-  padding: 30px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-form h2 {
+#pwTitle {
   text-align: center;
-  margin-bottom: 25px;
-  font-size: 20px;
+  font-size: 22px;
+  font-weight: 600;
   color: #333;
+  margin-bottom: 30px;
 }
 
-form button {
-  display: block;
+
+/* 전체 폼 */
+.signup-box {
+  padding: 0;
+  width: 750px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
   width: 100%;
-  background-color: #fff9cf;
-  border: 1.5px solid #d6c784;
+  margin-bottom: 25px;
+}
+
+.form-group label {
+  display: inline-block;
+  margin-left: 100px;
+  font-size: 16px;
+  font-weight: 500;
+  width: 150px;
+  text-align: left;
+  padding-right: 10px;
+  margin-top: 8px;
+  margin-bottom: 0;
+  color: #333;
+  flex-shrink: 0; /* 라벨 폭 고정 */
+}
+
+/* 입력칸 + 메시지를 감싸는 컨테이너 */
+.input-content-group {
+  display: flex;
+  flex-direction: column; 
+  flex-grow: 1;
+  width: 230px;
+}
+
+/* 입력칸 */
+.input-content-group input[type="password"] {
+  width: 250px;
+  padding: 8px 10px;
   border-radius: 6px;
+  border: 1px solid #ccc;
   font-size: 14px;
-  padding: 8px 0;
+}
+
+/* 입력칸 아래 info-message */
+.info-message {
+  display: block;
+  font-size: 13px;
+  color: #333;
+  text-align: left;
+}
+
+/* 에러 문구 */
+.error-message {
+  display: block;
+  font-size: 13px;
+  color: red;
+  text-align: left;
+}
+
+/* 에러 메시지 중앙 정렬 */
+#error-message {
+  text-align: center;
+  color: red;
+  font-size: 13px;
+  margin-bottom: 8px; /* 버튼과의 간격 */
+}
+#submit-group{
+  width: 100%;
+  display: flex;
+  flex-direction: column;  /* 세로 정렬 */
+  align-items: center;     /* 중앙 정렬 */
+  margin-top: 10px;
+}
+
+/* 버튼 중앙 정렬 */
+.button-group {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+/* 변경 버튼 */
+.changePwBtn {
+  background-color: #fff9cf;
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 8px 20px;
+  font-size: 14px;
   cursor: pointer;
+  transition: 0.3s;
 }
 
-form button:hover {
-  background-color: #fdf4b8;
-}
-
-/* --- 모달 스타일 --- */
+/* --- 모달 --- */
 .modal {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background: rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: center;
@@ -49,17 +126,20 @@ form button:hover {
 }
 
 .modal-content {
+  height: 100px;
   background-color: #fffef8;
-  padding: 30px 50px;
+  padding: 20px 30px;
+  width: 250px;
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.15);
   text-align: center;
+  animation: fadeIn 0.3s ease;
 }
 
 .modal-content p {
   font-size: 15px;
   color: #333;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .modal-content button {
@@ -67,8 +147,11 @@ form button:hover {
   border: 1.5px solid #d6c784;
   border-radius: 6px;
   font-size: 14px;
-  padding: 5px 20px;
+  padding: 6px 25px;
   cursor: pointer;
+  transition: all 0.2s ease;
+  display: block;
+  margin: 10px auto 0;
 }
 
 .modal-content button:hover {
