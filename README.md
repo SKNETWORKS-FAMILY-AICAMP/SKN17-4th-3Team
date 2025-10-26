@@ -186,6 +186,9 @@ Malta대학교의 Mark Anthony Camilleri 교수의 연구에 따르면, 최근 �
 
 
 ## 8. ERD
+
+<img src="img/ERD.png"/>
+
 ---
 
 
