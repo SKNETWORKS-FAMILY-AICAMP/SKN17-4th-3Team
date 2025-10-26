@@ -214,7 +214,7 @@ Malta대학교의 Mark Anthony Camilleri 교수의 연구에 따르면, 최근 �
 ---
 
 ## 7. ⭐WBS
-<img width="1582" height="1101" alt="image" src="https://github.com/user-attachments/assets/755940fd-63f6-4c3d-860d-1f76b5b933c7" />
+<img src="img/wbs.png" />
 
 ---
 
