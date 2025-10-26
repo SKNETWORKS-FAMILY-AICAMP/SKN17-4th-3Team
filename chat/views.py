@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from chat.models import Chat, Chat_log
 from django.views.decorators.csrf import csrf_exempt
+from uauth.models import UserForm
 import json, time
 
 @login_required
@@ -152,3 +153,25 @@ def delete_chat(request):
 def chat_list_view(request):
     chats = Chat.objects.filter(user=request.user).order_by('-created_at')
     return render(request, 'chat/chat.html', {'chats':chats})
+
+def change_pw(request):
+    if request.method == 'POST':
+        print('폼 제출 성공!!')
+        # print('request')
+        # print(request.body)
+        form = UserForm(request.POST, request.FILES)
+        # print('form')
+        # print(form)
+        # if form.is_valid():
+        data = json.loads(request.body.decode('utf-8'))
+        
+        old_pw = data.get('oldPw')
+        new_pw = data.get('newPw')
+        conf_pw = data.get('confPw')
+
+        print('request 받은거')
+        print(old_pw, new_pw, conf_pw)
+        return
+    else:
+        form = UserForm()
+    return render(request, 'chat/changepw.html', {'form': form})

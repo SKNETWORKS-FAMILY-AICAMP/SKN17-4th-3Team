@@ -90,7 +90,8 @@
 </div>
 
 <div class="style1">
-  <textarea id="message" sendbox="메시지를 입력하세요" onkeyup="lettercount(this)" maxlength="500"></textarea>
+  <textarea id="message" sendbox="메시지를 입력하세요" onkeyup="lettercount(this)" maxlength="500" 
+            {% if not chat %}disabled{% endif %}></textarea>
   <span id="counter">(0/500)</span>
   <button class="send">전송</button>
 </div>
@@ -290,7 +291,7 @@
   });
 
   findPwBtn.addEventListener('click', async () => {
-    window.location.href = "{% url 'uauth:findpw' %}"
+    window.location.href = "{% url 'chat:change_pw' %}"
   });
 
 </script>
