@@ -181,7 +181,7 @@ Malta대학교의 Mark Anthony Camilleri 교수의 연구에 따르면, 최근 �
 
 ## 4. 🧩시스템 아키텍처 
 
-<img src="img/시스템아키텍처_수정.png" width=700/>
+
 
 <br>
 
@@ -189,7 +189,7 @@ Malta대학교의 Mark Anthony Camilleri 교수의 연구에 따르면, 최근 �
 ---
 
 ## 5. 🖼️ 요구사항 명세서
-<img width="1435" height="617" alt="image" src="https://github.com/user-attachments/assets/6b25d5bb-ab54-4567-bc05-a929965c66b7" />
+<img src="img/요구사항명세서.png" />
 
 
 
@@ -198,6 +198,16 @@ Malta대학교의 Mark Anthony Camilleri 교수의 연구에 따르면, 최근 �
 ---
 
 ## 6. 📝화면설계서
+<p align="center">  
+  <img src="img/화면설계서1.png" align="center" width="32%">  
+  <img src="img/화면설계서2.png" align="center" width="32%">  
+  <img src="img/화면설계서3.png" align="center" width="32%">  
+</p>
+<p align="center">  
+  <img src="img/화면설계서4.png" align="center" width="45%">  
+  <img src="img/화면설계서5.png" align="center" width="45%">  
+</p>
+
 
 ---
 
