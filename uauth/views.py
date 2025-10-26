@@ -4,7 +4,9 @@ from django.contrib.auth import authenticate, login as auth_login
 from uauth.models import UserForm
 from django.http import JsonResponse
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 import random
+import string
 from django.core.mail import send_mail
 from datetime import datetime, timedelta
 from chat.models import Chat
@@ -41,13 +43,15 @@ def signup(request):
         form = UserForm()
     return render(request, 'uauth/signup.html', {'form':form}) 
 
+
+
 # 이메일 인증코드 전송
 def send_verification_code(request):
     email = request.GET.get('email')
     if not email:
         return JsonResponse({'error': '이메일을 입력해주세요.'}, status=400)
 
-    code = str(random.randint(100000, 999999))
+    code = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
     now = datetime.now()
 
     request.session['verification_code'] = code
@@ -94,3 +98,26 @@ def check_email(request):
 
 def findpw(request):
     return render(request, 'uauth/findpw.html')
+
+def modify_pw(request):
+    if request.method == "POST":
+        import json
+        data = json.loads(request.body.decode("utf-8"))
+        email = data.get("email")
+        new_password = data.get("new_password")
+        confirm_password = data.get("confirm_password")
+
+        if new_password != confirm_password:
+            return JsonResponse({"success": False, "message": "비밀번호가 일치하지 않습니다."})
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return JsonResponse({"success": False, "message": "등록되지 않은 이메일입니다."})
+
+        user.password = make_password(new_password)
+        user.save()
+
+        return JsonResponse({"success": True, "message": "비밀번호 변경 완료"})
+    
+    return JsonResponse({"success": False, "message": "잘못된 요청입니다."})
