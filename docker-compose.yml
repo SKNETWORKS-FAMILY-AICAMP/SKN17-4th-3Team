@@ -14,8 +14,8 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf  # ✅ 경로 정확히 이렇게!
-      # - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       - ./static:/code/staticfiles
     depends_on:
       - web
