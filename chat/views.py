@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from uauth.models import UserForm
 import json, time
 import re
+from requests.exceptions import RequestException
 
 @login_required
 def logout_view(request):
@@ -96,25 +97,49 @@ def save_message(request):
         user_id = data.get('user_id')
         chat_id = data.get('chat_id')
         question = data.get('question')
-        
-        time.sleep(5)
-        answer = f"{question}에 대한 응답 생성"
-        print(user_id, chat_id, question, answer)
-        
-        # DB에 넣는건 일단 주석처리 해놨습니다
-        chat_log = Chat_log.objects.create(
-            user_id=user_id,
-            chat_id=chat_id,
-            question=question,
-            answer=answer
-        )
-        print('응답 생성 완료')
 
-        # 마찬가지로 여기도 주석처리 했습니다
-        return JsonResponse({"status": "ok", "id": chat_log.id, "answer": answer})
-        # return JsonResponse({"status": "ok", "id": user_id, "answer": answer})
+        ############### 여기 url 바꿔야됨 #################
+        url = "https://3f1lkjqv3127e5-8000.proxy.runpod.net/"
+        params = {
+                "query": question,
+            }
+
+        try:
+            response = requests.get(url, params=params, timeout=60)
+            print(response.json())
+
+            if response.status_code == 200:
+                runpod_result = response.json() 
+
+                # DB에 넣는건 일단 주석처리 해놨습니다
+                chat_log = Chat_log.objects.create(
+                    user_id=user_id,
+                    chat_id=chat_id,
+                    question=question,
+                    answer=runpod_result.get('response')
+                )
+                
+                return JsonResponse({
+                    "status": "ok",
+                    "answer": runpod_result.get("response")
+                })
+            
+            else:
+                # FastAPI 서버에서 500 에러 등이 발생한 경우
+                return JsonResponse(
+                    {"status": "error", "message": f"RunPod 에러: {response.status_code}"}, 
+                    status=response.status_code
+                )
+
+        # 네트워크 연결 실패, 타임아웃 등
+        except RequestException as e:
+            return JsonResponse(
+                {"status": "error", "message": f"RunPod 연결 실패: {e}"}, 
+                status=503
+            )
+    # POST 요청이 아니면 요청이 잘못된거
+    return JsonResponse({'status': 'error', 'message': "Invalid Request"})
     
-    return JsonResponse({'status': 'error', 'message': "Invalid Request"}, status=400)
 
 @login_required
 def create_chat(request):
