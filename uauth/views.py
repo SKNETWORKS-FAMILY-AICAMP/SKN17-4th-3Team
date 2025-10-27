@@ -3,7 +3,7 @@ from django.contrib import messages, auth
 from django.contrib.auth import authenticate, login as auth_login
 from uauth.models import UserForm
 from django.http import JsonResponse
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, UserDetail
 from django.contrib.auth.hashers import make_password
 import random
 import string
@@ -47,16 +47,18 @@ def login_view(request):
 #     return render(request, 'uauth/signup.html', {'form':form}) 
 
 @csrf_exempt  # 🚨 테스트용: 나중에 CSRF_TRUSTED_ORIGINS이 적용되면 제거해도 됨
-def signup(request):
+def signup_view(request):
     if request.method == 'POST':
         form = UserForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            return JsonResponse({'message': 'success'}, status=200)
+            user = form.save()
+            UserDetail.objects.create(user=user, nickname=form.cleaned_data['nickname'])
+            return JsonResponse({'message': 'success'})  # ✅ fetch용 응답
         else:
-            return JsonResponse({'message': 'invalid', 'errors': form.errors}, status=400)
+            return JsonResponse({'message': 'invalid form'}, status=400)
     else:
-        return JsonResponse({'message': 'method not allowed'}, status=405)
+        form = UserForm()
+    return render(request, 'uauth/signup.html', {'form': form})
 
 
 # 이메일 인증코드 전송
