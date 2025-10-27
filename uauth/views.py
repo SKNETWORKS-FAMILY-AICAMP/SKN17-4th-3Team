@@ -34,17 +34,28 @@ def login_view(request):
     return redirect('uauth:main')
 
 
-def signup(request):
+# def signup(request):
+#     if request.method == 'POST':
+#         form = UserForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             user = form.save()
+#             messages.success(request, '')
+#             return redirect('uauth:main')
+#     else:
+#         form = UserForm()
+#     return render(request, 'uauth/signup.html', {'form':form}) 
+
+@csrf_exempt  # 🚨 테스트용: 나중에 CSRF_TRUSTED_ORIGINS이 적용되면 제거해도 됨
+def signup_view(request):
     if request.method == 'POST':
         form = UserForm(request.POST, request.FILES)
         if form.is_valid():
-            user = form.save()
-            messages.success(request, '')
-            return redirect('uauth:main')
+            form.save()
+            return JsonResponse({'message': 'success'}, status=200)
+        else:
+            return JsonResponse({'message': 'invalid', 'errors': form.errors}, status=400)
     else:
-        form = UserForm()
-    return render(request, 'uauth/signup.html', {'form':form}) 
-
+        return JsonResponse({'message': 'method not allowed'}, status=405)
 
 
 # 이메일 인증코드 전송
