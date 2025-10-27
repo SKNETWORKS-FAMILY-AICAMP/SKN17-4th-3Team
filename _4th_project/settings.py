@@ -33,7 +33,7 @@ ALLOWED_HOSTS = ['localhost', '3.37.124.207','15.165.171.5']
 
 CSRF_TRUSTED_ORIGINS = [
     'http://15.165.171.5',
-    'https://15.165.171.5',
+    'https://15.165.171.5:8080',
 ]
 
 
