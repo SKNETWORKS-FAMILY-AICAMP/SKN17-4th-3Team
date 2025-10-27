@@ -46,7 +46,6 @@ def login_view(request):
 #         form = UserForm()
 #     return render(request, 'uauth/signup.html', {'form':form}) 
 
-@csrf_exempt  # 🚨 테스트용: 나중에 CSRF_TRUSTED_ORIGINS이 적용되면 제거해도 됨
 def signup(request):
     if request.method == 'POST':
         form = UserForm(request.POST, request.FILES)
