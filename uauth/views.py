@@ -10,6 +10,7 @@ import string
 from django.core.mail import send_mail
 from datetime import datetime, timedelta
 from chat.models import Chat
+from django.views.decorators.csrf import csrf_exempt
 
 def main(request):
     return render(request, 'uauth/main.html')
