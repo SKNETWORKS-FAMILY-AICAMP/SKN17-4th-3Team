@@ -132,8 +132,13 @@ Malta대학교의 Mark Anthony Camilleri 교수의 연구에 따르면, 최근 �
 | **Language**         | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python)     |
 | **Development**   | ![VS Code](https://img.shields.io/badge/VS%20Code-0078d7?style=for-the-badge&logo=visualstudiocode&logoColor=white) ![Colab](https://img.shields.io/badge/Colab-F9AB00?style=for-the-badge&logo=googlecolab&color=525252)  ![RunPod](https://img.shields.io/badge/RunPod-5D29F0?style=for-the-badge&logo=runpod&logoColor=white)
 | **Vector DB**	|![FAISS](https://img.shields.io/badge/FAISS-005EB8?style=for-the-badge&logo=meta&logoColor=white)	|
-| **Framework**	| ![LangChain](https://img.shields.io/badge/LangChain-00B8A9?style=for-the-badge&logo=langchain&logoColor=white)	|
-| **Demo**	| ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)|
+| **Framework**	| ![LangChain](https://img.shields.io/badge/LangChain-00B8A9?style=for-the-badge&logo=langchain&logoColor=white) ![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=Django&logoColor=white)	|
+| **UI/FrontEnd**	| ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![CSS](https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) |
+| **Server/WSGI**	|![Gunicorn](https://img.shields.io/badge/gunicorn-%298729.svg?style=for-the-badge&logo=gunicorn&logoColor=white) ![Nginx](https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white) |
+| **Model Deployment**	| ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white) ![Docker Compose](https://img.shields.io/badge/Docker--Compose-1488C6?style=for-the-badge&logo=Docker&logoColor=white) |
+| **Cloud Infra**	| ![AWS EC2](https://img.shields.io/badge/AWS%20EC2-FF9900?style=for-the-badge&logo=Amazon%20AWS&logoColor=white) |
+| **DB**	| ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white) |
+| **Model Hub**	| ![Hugging Face](https://img.shields.io/badge/-HuggingFace-fff5ee?logo=HuggingFace&logoColor=yellow) |
 | **Collaboration Tool**      | ![GitHub](https://img.shields.io/badge/github-121011?style=for-the-badge&logo=github) ![Git](https://img.shields.io/badge/git-F05033?style=for-the-badge&logo=git) ![Discord](https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)|
 
 <br>
@@ -191,14 +196,13 @@ Malta대학교의 Mark Anthony Camilleri 교수의 연구에 따르면, 최근 �
 
 <img src="img/테스트 계획 및 결과.png"/>
 
-- 요구사항 명세서 기준으로 같은 IP로 5회 이상 로그인 실패시 5분간 재로그인 불가능 기능, 이메일 인증코드를 4회 이상 틀릴 경우 인증번호를 다시 받아야 회원가입을 할 수 있다는 기능을 제외한 모든 기능을 구현했습니다.
 
 
   
 ---
 ## 10. 수행결과
 
-
+#### 한계점/개선 방향
 
 ---
 

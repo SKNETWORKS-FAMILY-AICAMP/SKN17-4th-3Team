@@ -389,55 +389,77 @@ function validateNickname(){
     return regex.test(nick);
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+  console.log("✅ signup.js loaded");
 
-document.getElementById('signup-form').addEventListener('submit', async (e) => {
-  e.preventDefault(); // 새로고침 방지
-  const formError = document.getElementById('js-form-error');
-  formError.textContent = '';
+  // ============================================
+  // 미피 기존 코드 전체를 여기에 그대로 넣어
+  // ============================================
 
-  const isEmailFinal = isEmailChecked;
-  const isPwFinal = isPwValidFormat && isPwMatch;
-  const isNickFinal = isNicknameValid;
-
-  // ✅ 추가: 이메일 인증 여부 체크
-  if (!isEmailVerified) {
-    formError.textContent = '이메일 인증을 완료해주세요.';
-    verifyMsg.style.color = 'red';
-    verifyMsg.textContent = '이메일 인증을 완료해야 회원가입이 가능합니다.';
-    return;
+  // ✅ CSRF 토큰 가져오기 함수 추가
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
   }
+  const csrftoken = getCookie('csrftoken');
 
-  if (!isEmailFinal || !isPwFinal || !isNickFinal) {
-    formError.textContent = '모든 정보를 입력해주세요.';
-    if (!isEmailChecked) {
-      document.getElementById('email-message').style.color = 'red';
-      document.getElementById('email-message').textContent = '이메일 중복 확인을 완료해주세요.';
+  document.getElementById('signup-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formError = document.getElementById('js-form-error');
+    formError.textContent = '';
+
+    const isEmailFinal = isEmailChecked;
+    const isPwFinal = isPwValidFormat && isPwMatch;
+    const isNickFinal = isNicknameValid;
+
+    if (!isEmailVerified) {
+      formError.textContent = '이메일 인증을 완료해주세요.';
+      verifyMsg.style.color = 'red';
+      verifyMsg.textContent = '이메일 인증을 완료해야 회원가입이 가능합니다.';
+      return;
     }
 
-    return;
-  }
+    if (!isEmailFinal || !isPwFinal || !isNickFinal) {
+      formError.textContent = '모든 정보를 입력해주세요.';
+      if (!isEmailChecked) {
+        document.getElementById('email-message').style.color = 'red';
+        document.getElementById('email-message').textContent = '이메일 중복 확인을 완료해주세요.';
+      }
+      return;
+    }
 
-  // ✅ 회원가입 요청 전송
-  try {
-    const form = e.target;
-    const response = await fetch(form.action, {
-      method: 'POST',
-      body: new FormData(form),
-    });
+    // ✅ 회원가입 요청 전송
+    try {
+      const form = e.target;
+      const response = await fetch(form.action, {
+        method: 'POST',
+        headers: { 'X-CSRFToken': csrftoken },
+        body: new FormData(form),
+      });
 
-    if (response.ok) {
-      // ✅ 회원가입 성공 → 모달 표시
-      const modal = document.getElementById('successModal');
+      if (response.ok) {
+        const modal = document.getElementById('successModal');
         modal.classList.remove('hidden');
         modal.style.display = 'flex';
-    } else {
-      formError.textContent = '회원가입 중 오류가 발생했습니다.';
+      } else {
+        const data = await response.json();
+        console.error(data);
+        formError.textContent = '회원가입 중 오류가 발생했습니다.';
+      }
+    } catch (error) {
+      console.error(error);
+      formError.textContent = '서버와 연결할 수 없습니다.';
     }
-  } catch (error) {
-    console.error(error);
-    formError.textContent = '서버와 연결할 수 없습니다.';
-  }
+  });
 });
-
-
 

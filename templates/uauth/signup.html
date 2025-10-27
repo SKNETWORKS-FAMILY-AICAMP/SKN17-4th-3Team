@@ -9,7 +9,7 @@
 
 {% block content %}
 <div class="signup-box">
-    <form id='signup-form' method="post" enctype="multipart/form-data" novalidate>
+    <form id='signup-form' method="POST"  action="{% url 'uauth:signup' %}" enctype="multipart/form-data" novalidate>
         {% csrf_token %}
 
         <div class="form-group">
@@ -72,5 +72,8 @@
     </form>
 </div>
 {% include 'uauth/signup_modal.html' with page_type='signup' %}
-<script src="{% static 'js/signup.js' %}"></script>
 {% endblock content %}
+
+{% block script %}
+<script src="{% static 'js/signup.js' %}"></script>
+{% endblock script %}
