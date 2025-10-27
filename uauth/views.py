@@ -3,7 +3,7 @@ from django.contrib import messages, auth
 from django.contrib.auth import authenticate, login as auth_login
 from uauth.models import UserForm
 from django.http import JsonResponse
-from django.contrib.auth.models import User, UserDetail
+from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 import random
 import string
