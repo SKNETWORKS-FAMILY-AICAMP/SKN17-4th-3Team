@@ -136,7 +136,8 @@ Malta대학교의 Mark Anthony Camilleri 교수의 연구에 따르면, 최근 �
 
 ## 4. 🧩시스템 아키텍처 
 
-<img src="img/시스템 아키텍처.png">
+<img width="1583" height="879" alt="image" src="https://github.com/user-attachments/assets/bc4cfdbb-9b9a-43c4-8920-168420707d15" />
+
 
 <br>
 
