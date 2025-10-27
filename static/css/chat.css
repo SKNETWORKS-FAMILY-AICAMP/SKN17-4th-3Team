@@ -320,12 +320,13 @@ button.wan {
   line-height: 1.5;
 }
 
-/* ✅ 닫기 버튼 */
-.modal-content button {
+/* ✅ 삭제 버튼 */
+.modal-content #deleteChat {
   background-color: #FF8585;
   border: 1.5px solid #333;
   border-radius: 6px;
   width:70px;
+  height: 30px !important;
   font-size: 14px;
   padding: 5px 8px;
   cursor: pointer;
