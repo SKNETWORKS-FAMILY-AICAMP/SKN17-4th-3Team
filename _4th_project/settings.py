@@ -30,7 +30,12 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', '3.37.124.207','15.165.171.5']
-# CSRF_TRUSTED_ORIGINS = ['http://localhost:8080']
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://15.165.171.5',
+    'https://15.165.171.5',
+]
+
 
 
 # Application definition
@@ -75,23 +80,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "_4th_project.wsgi.application"
 
-
-# Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'projectdb',
-#         'USER': 'django',
-#         'PASSWORD': 'django',
-#         'HOST': 'localhost',
-#         'PORT': '3306',
-#         'OPTIONS': {
-#             'charset': 'utf8mb4'
-#         }
-#     }
-# }
 
 DATABASES = {
     'default': {
