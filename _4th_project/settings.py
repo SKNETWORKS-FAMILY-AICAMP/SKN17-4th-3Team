@@ -36,11 +36,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://15.165.171.5:8080',
 ]
 
-# 지금 HTTP로 접속 중이므로 Secure 쿠키 금지
-CSRF_COOKIE_SECURE = False
-SESSION_COOKIE_SECURE = False
 
-# Application definition
 
 INSTALLED_APPS = [
     "django.contrib.admin",
