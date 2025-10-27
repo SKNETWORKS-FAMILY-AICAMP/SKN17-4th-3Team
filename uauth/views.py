@@ -52,8 +52,13 @@ def signup(request):
         form = UserForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
-            UserDetail.objects.create(user=user, nickname=form.cleaned_data['nickname'])
-            return JsonResponse({'message': 'success'})  # ✅ fetch용 응답
+            
+            # # ✅ userdetail 수동 생성 대신, 이미 있는 객체에 닉네임 저장
+            # nickname = form.cleaned_data.get('nickname')
+            # user.userdetail.nickname = nickname
+            # user.userdetail.save()
+            
+            return JsonResponse({'message': 'success'})
         else:
             return JsonResponse({'message': 'invalid form'}, status=400)
     else:
