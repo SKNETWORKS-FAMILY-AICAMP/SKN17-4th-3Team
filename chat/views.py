@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from uauth.models import UserForm
 import json, time
 import re
+import requests
 from requests.exceptions import RequestException
 
 @login_required
