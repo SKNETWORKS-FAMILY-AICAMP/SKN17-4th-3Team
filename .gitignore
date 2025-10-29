@@ -20,4 +20,4 @@ dist/
 *.log
 *.sqlite3
 *.db
-
+env
